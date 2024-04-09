@@ -1,14 +1,9 @@
-'use client'
+const Page = ({ params }: { params: { id: string } }) => {
 
-import { useParams } from "next/navigation"
-
-const page = () => {
-
-    const params = useParams();
     const id = params.id;
 
     return (
         <div>{"Edit Map " + id}</div>
     )
 }
-export default page
+export default Page
