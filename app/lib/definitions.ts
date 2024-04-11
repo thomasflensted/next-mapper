@@ -36,8 +36,9 @@ export type CreatePlace = Omit<Place, 'id'>;
 export type Map = {
     id: string;
     name: string;
-    desctiption: string;
+    description: string;
     user_id: string;
+    emoji: string;
 }
 
 export type CreateMap = Omit<Map, 'id'>;
@@ -45,5 +46,8 @@ export type CreateMap = Omit<Map, 'id'>;
 
 // MAP STATE TYPES
 export type PlaceCategory = 'restaurant' | 'cafe' | 'museum' | 'nature' | 'sight' | 'accommodation' | 'memory' | 'other';
+export const NUMBER_OF_FILTERS = 8;
 
 export type View = 'marker' | 'list';
+
+export type Filter = PlaceCategory[];

@@ -1,6 +1,6 @@
 const Page = () => {
     return (
-        <div>New Map</div>
+        <div>Edit place</div>
     )
 }
 export default Page
