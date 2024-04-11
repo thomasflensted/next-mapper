@@ -100,5 +100,6 @@ export async function updateMap(map_id: string, user_id: string, emoji: string, 
         return { message: "Database error: Failed to create map." }
     }
     revalidatePath('/maps/')
-    redirect('/maps/')
+    revalidatePath('/maps/' + id)
+    redirect('/maps/' + id);
 }
