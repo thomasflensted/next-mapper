@@ -55,7 +55,6 @@ export async function createMap(user_id: string, emoji: string, prevState: State
 
     const now = new Date().toISOString();
     const { name, description, validatedEmoji, validatedUserId } = validatedFields.data;
-    console.log({ name, description, validatedEmoji, validatedUserId })
 
     try {
         await sql`

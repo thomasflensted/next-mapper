@@ -47,7 +47,7 @@ const CreatePlaceForm = ({ map_id }: { map_id: string }) => {
             </div>
 
             <select className="bg-white border rounded w-min px-2 py-1 text-xs" name="" id="">
-                <option className="text-sm" value="">Restaurants</option>
+                <option value="">Restaurants</option>
                 <option value="">Café</option>
                 <option value="">Museum</option>
                 <option value="">Nature</option>

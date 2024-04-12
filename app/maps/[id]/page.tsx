@@ -21,10 +21,11 @@ export default async function Page({ params, searchParams }: PageProps) {
     if (!mapDetails) notFound();
 
     return (
-        <div className="flex flex-col gap-8 my-10 text-center">
-            <div className="text-center flex flex-col gap-4 items-center">
+        <div className="flex flex-col gap-8 my-6 text-center">
+            <div className="text-center flex gap-6 flex-col items-center">
+                <p className="text-2xl mr-2">{mapDetails.emoji}</p>
                 <h1 className="font-semibold text-xl text-blue-600">{mapDetails.name}</h1>
-                <p className="mt-2 font-light text-blue-500 w-2/5 text-sm leading-6">{mapDetails.description}</p>
+                {mapDetails.description && <p className="font-light text-blue-500 w-2/5 text-sm leading-6">{mapDetails.description}</p>}
             </div>
             <div className="flex gap-2 justify-center">
                 <Link href='/maps/'>

@@ -20,7 +20,7 @@ export async function fetchUserDetails(user_id: string) {
 export async function fetchMaps(user_id: string) {
     noStore();
     try {
-        const data = await sql`SELECT * FROM maps WHERE user_id = ${user_id} ORDER BY name`;
+        const data = await sql`SELECT * FROM maps WHERE user_id = ${user_id} ORDER BY created_at DESC`;
         return data.rows;
     } catch (error) {
         console.log('Database Error:', error);
