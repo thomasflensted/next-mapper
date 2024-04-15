@@ -27,8 +27,8 @@ export async function deleteMap(id: number) {
 export async function createMap(user_id: number, emoji: string, prevState: State, formData: FormData) {
 
     const validatedFields = CreateMapFormSchema.safeParse({
-        name: formData.get('mapname'),
-        description: formData.get('mapdescription'),
+        name: formData.get('name'),
+        description: formData.get('description'),
         validated_emoji: emoji,
         validated_user_id: user_id
     })
@@ -59,8 +59,8 @@ export async function updateMap(map_id: number, user_id: number, emoji: string, 
 
     const validatedFields = MapFormSchema.safeParse({
         id: map_id,
-        name: formData.get('mapname'),
-        description: formData.get('mapdescription'),
+        name: formData.get('name'),
+        description: formData.get('description'),
         validated_emoji: emoji,
         validated_user_id: user_id
     })

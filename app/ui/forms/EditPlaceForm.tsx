@@ -7,15 +7,16 @@ import { useFormState } from "react-dom";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { createPlace } from "@/app/lib/placeActions";
 import { useSearchParams, useParams } from "next/navigation";
-import CategoryDropdown from "./form-components/CategoryDropdown";
+import { Place } from "@/app/lib/definitions";
 import EmojiPickerComponent from "./form-components/EmojiPickerComponent";
+import CategoryDropdown from "./form-components/CategoryDropdown";
 import DescriptionInput from "./form-components/DescriptionInput";
 import NameInput from "./form-components/NameInput";
 
-const CreatePlaceForm = () => {
+const EditPlaceForm = ({ place }: { place: Place }) => {
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [emoji, setEmoji] = useState('⭐');
+    const [emoji, setEmoji] = useState(place.emoji);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const searchParams = useSearchParams();
@@ -40,18 +41,18 @@ const CreatePlaceForm = () => {
     return (
         <form className="flex flex-col gap-6" action={dispatch}>
 
-            <NameInput defaultName="">
-                {state.errors?.name && <p className="text-red-500 text-xs font-light mt-1">{state.errors.name[0]}</p>}
+            <NameInput defaultName={place.name}>
+                {state.errors?.name && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.name[0]}</p>}
             </NameInput>
 
-            <DescriptionInput defaultDescription="">
+            <DescriptionInput defaultDescription={place.description}>
                 {state.errors?.description && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.description[0]}</p>}
             </DescriptionInput>
 
-            <CategoryDropdown defaultCategory="restaurant" />
+            <CategoryDropdown defaultCategory={place.category} />
             {state.errors?.category && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.category[0]}</p>}
 
-            <EmojiPickerComponent emoji={emoji} showEmojiPicker={showEmojiPicker} setShowEmojiPicker={setShowEmojiPicker} handleEmojiClick={handleEmojiClick}>
+            <EmojiPickerComponent emoji={emoji} showEmojiPicker={showEmojiPicker} handleEmojiClick={handleEmojiClick} setShowEmojiPicker={setShowEmojiPicker}>
                 {state.errors?.validated_emoji && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_emoji[0]}</p>}
             </EmojiPickerComponent>
 
@@ -63,8 +64,9 @@ const CreatePlaceForm = () => {
             {state.errors?.validated_map_id && <p className="text-red-500 text-xs ml-2 font-light block">Something went wrong. Please refresh the page.</p>}
             {state.errors?.validated_lat && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_lat[0]}</p>}
             {state.errors?.validated_lng && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_lng[0]}</p>}
-            {state.errors?.validated_lng && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_lng[0]}</p>}
+            {state.errors?.validated_map_id && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_map_id[0]}</p>}
+
         </form >
     )
 }
-export default CreatePlaceForm
+export default EditPlaceForm

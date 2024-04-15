@@ -6,7 +6,7 @@ import Map, { MapRef, Marker } from 'react-map-gl';
 import PopUpWithAddNew from '../map-components/PopUpWithAddNew';
 import { Place } from '@/app/lib/definitions';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { getInitialView, isValidPlaceID } from '@/app/scripts/helpers';
+import { useGetInitialView, isValidPlaceID } from '@/app/scripts/helpers';
 import PopUpWithInfo from '../map-components/PopUpWithInfo';
 
 const MapComponent = ({ children, places }: { children?: ReactNode, places: Place[] }) => {
@@ -16,7 +16,7 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
     const [clickCoords, setClickCoords] = useState({ lat: 0, lng: 0 });
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter();
-    const initialViewState = getInitialView();
+    const initialViewState = useGetInitialView();
     const searchParams = useSearchParams()
     const place_id = isValidPlaceID(searchParams.get('place'), places) ? searchParams.get('place') : null;
     const path = usePathname();

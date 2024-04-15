@@ -24,10 +24,10 @@ type createProps = {
 export async function createPlace(placeProps: createProps, prevState: State, formData: FormData) {
 
     const validatedFields = CreatePlaceFormSchema.safeParse({
-        name: formData.get('placename'),
-        description: formData.get('placedescription'),
+        name: formData.get('name'),
+        description: formData.get('description'),
         validated_emoji: placeProps.emoji,
-        category: formData.get('placecategory'),
+        category: formData.get('category'),
         validated_lat: placeProps.lat,
         validated_lng: placeProps.lng,
         validated_map_id: placeProps.map_id
