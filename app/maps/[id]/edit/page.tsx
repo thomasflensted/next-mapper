@@ -5,7 +5,7 @@ import { fetchMapDetails } from "@/app/lib/data"
 
 export default async function Page({ params }: { params: { id: string } }) {
 
-    const mapDetails = await fetchMapDetails(params.id);
+    const mapDetails = await fetchMapDetails(+params.id);
 
     return (
         <div className="flex flex-col w-2/5 p-8 border mx-auto rounded-lg h-min shadow-lg relative">

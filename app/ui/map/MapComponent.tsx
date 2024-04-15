@@ -36,9 +36,12 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
     }
 
     const handleMarkerClick = (e: any, place_id: number) => {
+        setShowPopup(false);
         e.originalEvent.stopPropagation();
         const newUrl = new URLSearchParams(searchParams);
-        newUrl.set('place', place_id.toString())
+        place_id.toString() === newUrl.get('place')
+            ? newUrl.delete('place')
+            : newUrl.set('place', place_id.toString())
         router.replace(`${path}?${newUrl.toString()}`, { scroll: false });
     }
 
@@ -56,8 +59,7 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
 
             {places.map((place: Place) =>
                 <Marker key={place.id} latitude={place.lat} longitude={place.lng} onClick={(e) => handleMarkerClick(e, place.id)} >
-                    <div
-                        className='bg-white h-7 w-7 flex items-center justify-center rounded-full shadow-lg border border-blue-500 cursor-pointer hover:scale-110 transition-all ease-in-out'>
+                    <div className='bg-white h-7 w-7 flex items-center justify-center rounded-full shadow-lg border border-blue-500 cursor-pointer hover:scale-110 transition-all ease-in-out'>
                         <p className='text-lg'>{place.emoji}</p>
                     </div>
                 </Marker>
