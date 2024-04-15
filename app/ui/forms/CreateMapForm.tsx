@@ -19,7 +19,7 @@ const CreateMapForm = () => {
     }
 
     useEffect(() => { inputRef?.current?.focus() }, [])
-    const createMapWithUserIdAndEmoji = createMap.bind(null, '2be0f326-4cc4-4c36-a87e-39b4c8d778d0', emoji);
+    const createMapWithUserIdAndEmoji = createMap.bind(null, 1, emoji);
 
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createMapWithUserIdAndEmoji, initialState);
@@ -57,15 +57,15 @@ const CreateMapForm = () => {
                     style={{ position: 'absolute' }}
                     className="border top-9 -left-1" />
                 <p className="text-2xl ml-2 cursor-pointer" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>{emoji}</p>
-                {state.errors?.validatedEmoji &&
-                    <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validatedEmoji[0]}</p>
+                {state.errors?.validated_emoji &&
+                    <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_emoji[0]}</p>
                 }
             </div>
             <div className="flex gap-1">
                 <Link href='/maps' className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
-            {state.errors?.validatedUserId &&
+            {state.errors?.validated_user_id &&
                 <p className="text-red-500 text-xs ml-2 font-light block">Something went wrong. Please sign out and in again.</p>
             }
             {state.message && <p className="text-red-500 text-xs ml-2 font-light block">{state.message}</p>}

@@ -2,17 +2,25 @@ import { fetchMaps } from "@/app/lib/data";
 import Link from "next/link";
 import MapCard from "./MapCard";
 import CreateNewMapCard from "./CreateNewMapCard";
+import { Map } from "@/app/lib/definitions";
 
 export async function MapGrid({ sort, order }: { sort: string, order: string }) {
 
-    const maps = await fetchMaps('2be0f326-4cc4-4c36-a87e-39b4c8d778d0');
+    const maps = await fetchMaps(1);
+
+    function sortByDate(a: Map, b: Map) {
+        var dateA = new Date(a[sort as keyof Map]).getTime();
+        var dateB = new Date(b[sort as keyof Map]).getTime();
+        return order === 'desc'
+            ? dateA > dateB ? -1 : 1
+            : dateA > dateB ? 1 : -1
+    }
 
     if (sort === 'name') {
         if (order === 'desc') maps.sort((a, b) => a['name'].localeCompare(b['name']));
         else maps.sort((a, b) => b['name'].localeCompare(a['name']));
     } else {
-        if (order === 'desc') maps.sort((a, b) => b[sort] - a[sort]);
-        else maps.sort((a, b) => a[sort] - b[sort]);
+        maps.sort(sortByDate);
     }
 
     return (
@@ -24,4 +32,5 @@ export async function MapGrid({ sort, order }: { sort: string, order: string }) 
         </div>
     )
 }
+
 export default MapGrid

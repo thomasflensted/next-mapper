@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-const MapCard = ({ title, desc, emoji, id }: { title: string, desc: string, emoji: string, id: string }) => {
+const MapCard = ({ title, desc, emoji, id }: { title: string, desc: string, emoji: string, id: number }) => {
 
     return (
         <Link href={'/maps/' + id}>

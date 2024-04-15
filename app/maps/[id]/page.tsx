@@ -1,4 +1,4 @@
-import { fetchFilteredPlaces, fetchMapDetails } from "@/app/lib/data";
+import { fetchMapDetails } from "@/app/lib/data";
 import DeleteMapButton from "@/app/ui/map/DeleteMapButton";
 import MapContainer from "@/app/ui/map/MapContainer";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
@@ -12,12 +12,11 @@ type PageProps = {
 
 export default async function Page({ params, searchParams }: PageProps) {
 
-    const filter = searchParams?.filter || null;
-    const view = searchParams?.view || 'marker';
     const id = params.id;
-    const mapDetails = await fetchMapDetails(id);
-    const places = await fetchFilteredPlaces(filter, id);
+    const filter = searchParams.filter ? searchParams.filter : [];
+    const view = !searchParams.view || !['marker', 'list'].includes(searchParams.view) ? 'marker' : searchParams.view;
 
+    const mapDetails = await fetchMapDetails(+id);
     if (!mapDetails) notFound();
 
     return (
@@ -38,8 +37,8 @@ export default async function Page({ params, searchParams }: PageProps) {
                     <button className="bg-white border font-light text-blue-600 rounded text-xs px-4 py-2 hover:bg-gray-50">Edit Map Details</button>
                 </Link>
             </div>
-            <MapContainer params={params} searchParams={searchParams} />
-            <DeleteMapButton id={id} />
+            <MapContainer map_id={id} filter={filter} view={view} />
+            <DeleteMapButton />
         </div>
     )
 }

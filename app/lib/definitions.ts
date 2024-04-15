@@ -1,6 +1,6 @@
 // USER TYPES
 export type User = {
-    id: string;
+    id: number;
     email: string;
     password: string;
 }
@@ -8,19 +8,31 @@ export type User = {
 export type CreateUser = Omit<User, 'id'>;
 
 export type UserDetails = {
-    id: string;
+    id: number;
     first_name: string;
     last_name: string;
-    profile_picture: string;
-    user_id: string;
+    // profile_picture: string;
+    user_id: number;
 }
 
-export type CreateUserDetails = Omit<UserDetails, 'id'>;
+export type CreateUserDetails = Omit<UserDetails, 'id' | 'profile_picture'>;
 
+// MAP TYPES
+export type Map = {
+    id: number;
+    name: string;
+    description: string;
+    emoji: string,
+    created_at: string,
+    updated_at: string,
+    user_id: number;
+}
+
+export type CreateMap = Omit<Map, 'id'>;
 
 // PLACE TYPES
 export type Place = {
-    id: string;
+    id: number;
     name: string;
     description: string;
     lat: number;
@@ -28,21 +40,10 @@ export type Place = {
     category: PlaceCategory;
     have_been: boolean;
     map_id: string;
-}
-
-export type CreatePlace = Omit<Place, 'id'>;
-
-// MAP TYPES
-export type Map = {
-    id: string;
-    name: string;
-    description: string;
-    user_id: string;
     emoji: string;
 }
 
-export type CreateMap = Omit<Map, 'id'>;
-
+export type CreatePlace = Omit<Place, 'id'>;
 
 // MAP STATE TYPES
 export type PlaceCategory = 'restaurant' | 'cafe' | 'museum' | 'nature' | 'sight' | 'accommodation' | 'memory' | 'other';

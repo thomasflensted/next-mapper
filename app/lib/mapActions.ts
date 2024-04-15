@@ -1,19 +1,9 @@
 'use server'
-import { z } from 'zod';
 
 import { sql } from "@vercel/postgres"
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
-
-const MapFormSchema = z.object({
-    id: z.string(),
-    name: z.string({ required_error: "Name must me filled out." }).min(1, { message: "Name must be filled out." }),
-    description: z.string().optional(),
-    validatedEmoji: z.string({ invalid_type_error: "Invalid emoji." }).emoji(),
-    validatedUserId: z.string(),
-    created_at: z.string(),
-    updated_at: z.string()
-})
+import { CreateMapFormSchema, MapFormSchema } from "./validationForms"
 
 export type State = {
     errors?: {
@@ -23,7 +13,8 @@ export type State = {
     message?: string | null;
 };
 
-export async function deleteMap(id: string) {
+export async function deleteMap(id: number) {
+
     try {
         await sql`DELETE FROM maps WHERE id = ${id}`
     } catch (error) {
@@ -33,18 +24,14 @@ export async function deleteMap(id: string) {
     redirect('/maps/')
 }
 
-const CreateMapFormSchema = MapFormSchema.omit({ id: true, created_at: true, updated_at: true })
-
-export async function createMap(user_id: string, emoji: string, prevState: State, formData: FormData) {
+export async function createMap(user_id: number, emoji: string, prevState: State, formData: FormData) {
 
     const validatedFields = CreateMapFormSchema.safeParse({
         name: formData.get('mapname'),
         description: formData.get('mapdescription'),
-        validatedEmoji: emoji,
-        validatedUserId: user_id,
+        validated_emoji: emoji,
+        validated_user_id: user_id
     })
-
-    console.log('here');
 
     if (!validatedFields.success) {
         return {
@@ -53,31 +40,29 @@ export async function createMap(user_id: string, emoji: string, prevState: State
         };
     }
 
-    const now = new Date().toISOString();
-    const { name, description, validatedEmoji, validatedUserId } = validatedFields.data;
+    const { name, description, validated_emoji, validated_user_id } = validatedFields.data;
 
     try {
         await sql`
         INSERT INTO maps 
-        (name, description, emoji, user_id, updated_at, created_at) 
-        VALUES (${name}, ${description}, ${validatedEmoji}, ${validatedUserId}, ${now}, ${now})`
+        (name, description, emoji, user_id) 
+        VALUES (${name}, ${description}, ${validated_emoji}, ${validated_user_id})`
     } catch (error) {
+        console.log(error);
         return { message: "Database error: Failed to create map." }
     }
     revalidatePath('/maps/')
     redirect('/maps/')
 }
 
-const UpdateMapFormSchema = MapFormSchema.omit({ created_at: true, updated_at: true })
+export async function updateMap(map_id: number, user_id: number, emoji: string, prevState: State, formData: FormData) {
 
-export async function updateMap(map_id: string, user_id: string, emoji: string, prevState: State, formData: FormData) {
-
-    const validatedFields = UpdateMapFormSchema.safeParse({
+    const validatedFields = MapFormSchema.safeParse({
         id: map_id,
         name: formData.get('mapname'),
         description: formData.get('mapdescription'),
-        validatedEmoji: emoji,
-        validatedUserId: user_id,
+        validated_emoji: emoji,
+        validated_user_id: user_id
     })
 
     if (!validatedFields.success) {
@@ -87,14 +72,13 @@ export async function updateMap(map_id: string, user_id: string, emoji: string, 
         };
     }
 
-    const now = new Date().toISOString();
-    const { id, name, description, validatedEmoji, validatedUserId } = validatedFields.data;
+    const { id, name, description, validated_emoji, validated_user_id } = validatedFields.data;
 
     try {
         await sql`
         UPDATE maps 
-        SET name = ${name}, description = ${description}, emoji = ${validatedEmoji}, updated_at = ${now}
-        WHERE id = ${id} AND user_id = ${validatedUserId}`
+        SET name = ${name}, description = ${description}, emoji = ${validated_emoji}, updated_at = CURRENT_TIMESTAMP
+        WHERE id = ${id} AND user_id = ${validated_user_id}`
     } catch (error) {
         return { message: "Database error: Failed to create map." }
     }

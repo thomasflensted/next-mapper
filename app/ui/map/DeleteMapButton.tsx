@@ -2,10 +2,12 @@
 
 import { deleteMap } from '@/app/lib/mapActions'
 import * as RadixDialog from '@radix-ui/react-alert-dialog'
+import { useParams } from 'next/navigation'
 
-const DeleteMapButton = ({ id }: { id: string }) => {
+const DeleteMapButton = () => {
 
-    const deleteWithId = deleteMap.bind(null, id);
+    const params = useParams<{ id: string }>()
+    const deleteWithId = deleteMap.bind(null, +params.id);
 
     return (
         <RadixDialog.Root>
