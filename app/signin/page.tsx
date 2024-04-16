@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Cross2Icon } from "@radix-ui/react-icons"
-import SignInForm from "../ui/forms/SignInForm"
+import SignInForm from "../ui/forms/user/SignInForm"
 
 const Page = () => {
     return (

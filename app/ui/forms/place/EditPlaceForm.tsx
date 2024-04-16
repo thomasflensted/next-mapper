@@ -1,19 +1,17 @@
 'use client'
 
 import Link from "next/link"
-import EmojiPicker from 'emoji-picker-react';
 import { useState, useRef, useEffect } from "react";
 import { useFormState } from "react-dom";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { createPlace } from "@/app/lib/placeActions";
-import { useSearchParams, useParams } from "next/navigation";
+import { updatePlace } from "@/app/lib/placeActions";
+import { useSearchParams, useParams, useRouter } from "next/navigation";
 import { Place } from "@/app/lib/definitions";
-import EmojiPickerComponent from "./form-components/EmojiPickerComponent";
-import CategoryDropdown from "./form-components/CategoryDropdown";
-import DescriptionInput from "./form-components/DescriptionInput";
-import NameInput from "./form-components/NameInput";
+import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
+import CategoryDropdown from "../form-components/CategoryDropdown";
+import DescriptionInput from "../form-components/DescriptionInput";
+import NameInput from "../form-components/NameInput";
 
-const EditPlaceForm = ({ place }: { place: Place }) => {
+const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) => {
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emoji, setEmoji] = useState(place.emoji);
@@ -21,8 +19,6 @@ const EditPlaceForm = ({ place }: { place: Place }) => {
 
     const searchParams = useSearchParams();
     const params = useParams();
-    const lng = searchParams.get('lng') ?? 0;
-    const lat = searchParams.get('lat') ?? 0;
     const viewState = searchParams.get('viewstate') ?? '15,20,1.5';
     const map_id = params.id;
 
@@ -32,8 +28,8 @@ const EditPlaceForm = ({ place }: { place: Place }) => {
         setShowEmojiPicker(false);
     }
 
-    const placeProps = { emoji, lat: +lat, lng: +lng, map_id: +map_id, viewState }
-    const createPlaceWithArguments = createPlace.bind(null, placeProps);
+    const placeProps = { id: place.id, emoji, map_id: +map_id, viewState }
+    const createPlaceWithArguments = updatePlace.bind(null, placeProps);
 
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createPlaceWithArguments, initialState);
@@ -42,7 +38,7 @@ const EditPlaceForm = ({ place }: { place: Place }) => {
         <form className="flex flex-col gap-6" action={dispatch}>
 
             <NameInput defaultName={place.name}>
-                {state.errors?.name && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.name[0]}</p>}
+                {state.errors?.name && <p className="text-red-500 text-xs mt-1 font-light block">{state.errors.name[0]}</p>}
             </NameInput>
 
             <DescriptionInput defaultDescription={place.description}>
@@ -57,15 +53,10 @@ const EditPlaceForm = ({ place }: { place: Place }) => {
             </EmojiPickerComponent>
 
             <div className="flex gap-1">
-                <Link href={'/maps/' + map_id + '?viewstate=' + viewState} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
+                <Link href={`/maps/${map_id}?${backUrl}`} scroll={false} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
-
-            {state.errors?.validated_map_id && <p className="text-red-500 text-xs ml-2 font-light block">Something went wrong. Please refresh the page.</p>}
-            {state.errors?.validated_lat && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_lat[0]}</p>}
-            {state.errors?.validated_lng && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_lng[0]}</p>}
             {state.errors?.validated_map_id && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_map_id[0]}</p>}
-
         </form >
     )
 }

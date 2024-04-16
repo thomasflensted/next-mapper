@@ -1,27 +1,25 @@
 'use client'
 
-import Link from "next/link"
+import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { createMap } from "@/app/lib/mapActions";
 import { useFormState } from "react-dom";
-import NameInput from "./form-components/NameInput";
-import DescriptionInput from "./form-components/DescriptionInput";
-import EmojiPickerComponent from "./form-components/EmojiPickerComponent";
+import NameInput from "../form-components/NameInput";
+import DescriptionInput from "../form-components/DescriptionInput";
+import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
 
 const CreateMapForm = () => {
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emoji, setEmoji] = useState('🗺️');
-    const inputRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
 
     const handleEmojiClick = (pickedEmoji: string) => {
         setEmoji(pickedEmoji);
         setShowEmojiPicker(false);
     }
 
-    useEffect(() => { inputRef?.current?.focus() }, [])
     const createMapWithUserIdAndEmoji = createMap.bind(null, 1, emoji);
-
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createMapWithUserIdAndEmoji, initialState);
 
@@ -41,7 +39,7 @@ const CreateMapForm = () => {
             </EmojiPickerComponent>
 
             <div className="flex gap-1">
-                <Link href='/maps' className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
+                <button onClick={() => router.back()} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</button>
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
 

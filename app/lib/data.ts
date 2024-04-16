@@ -2,12 +2,14 @@ import { sql } from '@vercel/postgres';
 import { Map, NUMBER_OF_FILTERS } from './definitions';
 import { Place } from './definitions';
 import { unstable_noStore as noStore } from 'next/cache';
+import { count } from 'console';
 
 export async function getUser() {
     return;
 }
 
 export async function fetchUserDetails(user_id: number) {
+    noStore();
     try {
         const data = await sql`SELECT first_name, last_name FROM user_details WHERE user_id = ${user_id}`
         return data.rows[0];
@@ -41,9 +43,7 @@ export async function fetchMapCount(user_id: number) {
 
 export async function fetchMapDetails(id: number) {
     noStore();
-
     type MapDetails = Omit<Map, 'id' | 'user_id'>;
-
     try {
         const data = await sql<MapDetails>`SELECT name, description, emoji FROM maps WHERE id = ${id}`;
         return data.rows[0];
@@ -54,6 +54,7 @@ export async function fetchMapDetails(id: number) {
 }
 
 export async function fetchPlaces(map_id: number) {
+    noStore();
     try {
         const data = await sql<Place>`SELECT * FROM places WHERE map_id = ${map_id}`;
         return data.rows;
@@ -64,6 +65,7 @@ export async function fetchPlaces(map_id: number) {
 }
 
 export async function fetchFilteredPlaces(filterArray: string[], map_id: number) {
+    noStore();
     try {
         const data = await sql<Place>`SELECT * FROM places WHERE map_id = ${map_id}`
         return !filterArray || filterArray.length === NUMBER_OF_FILTERS || filterArray.length === 0
@@ -76,12 +78,25 @@ export async function fetchFilteredPlaces(filterArray: string[], map_id: number)
 }
 
 export async function fetchPlace(id: number) {
+    noStore();
     try {
         const data = await sql<Place>`SELECT * FROM places WHERE id = ${id}`
         return data.rows[0];
     } catch (error) {
         console.log('Database Error:', error);
-        throw new Error('Failed to fetch maps.');
+        throw new Error('Failed to fetch place.');
+    }
+}
+
+export async function fetchPlaceCount(map_id: number) {
+    noStore();
+    try {
+        const data = await sql`
+        SELECT COUNT(*) FROM places WHERE map_id = ${map_id}`
+        return parseInt(data.rows[0].count);
+    } catch (error) {
+        console.log('Database Error:', error);
+        throw new Error('Failed to fetch place count.');
     }
 }
 

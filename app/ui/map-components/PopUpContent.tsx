@@ -1,13 +1,11 @@
 import { Place } from "@/app/lib/definitions"
 import Link from "next/link"
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 const PopUpContent = ({ place }: { place: Place }) => {
 
     const searchParams = useSearchParams()
     const path = usePathname();
-    const params = useParams()
-    const map_id = params.id;
     const viewState = searchParams.has('viewstate') ? searchParams.get('viewstate') : '15,20,1.5';
 
     return (
@@ -19,10 +17,10 @@ const PopUpContent = ({ place }: { place: Place }) => {
             <hr />
             <p className='font-light'>{place.description}</p>
             <div className='flex gap-1.5 mt-1'>
-                <Link href={`${path}/place/${place.id}/edit?viewstate=${viewState}`} className='w-full border text-center bg-white hover:bg-gray-50 text-blue-600 py-1 rounded'>
+                <Link href={`${path}/place/${place.id}/edit?viewstate=${viewState}`} className='focus:outline-none w-full border text-center bg-white hover:bg-gray-50 text-blue-600 py-1 rounded'>
                     Update Details
                 </Link>
-                <Link href={`${path}/place/${place.id}/adjust`} className="bg-white hover:bg-gray-50 text-blue-600 border w-full py-1 rounded text-center">
+                <Link href={`${path}/place/${place.id}/adjust?viewstate=${viewState}&lat=${place.lat}&lng=${place.lng}`} scroll={false} className="focus:outline-none bg-white hover:bg-gray-50 text-blue-600 border w-full py-1 rounded text-center">
                     Adjust Location
                 </Link>
             </div>

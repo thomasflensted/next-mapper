@@ -11,7 +11,7 @@ const DeleteMapButton = () => {
 
     return (
         <RadixDialog.Root>
-            <div>
+            <div className='mt-10'>
                 <RadixDialog.Trigger className="bg-white border border-red-200 font-light text-red-600 rounded text-xs px-4 py-2 hover:bg-red-50">Delete Map</RadixDialog.Trigger>
             </div>
             <RadixDialog.Portal>

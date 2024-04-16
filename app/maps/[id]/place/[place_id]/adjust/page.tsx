@@ -1,6 +1,34 @@
-const page = () => {
+import { fetchMapDetails, fetchPlace } from "@/app/lib/data"
+import AdjustMap from "@/app/ui/map-adjust/AdjustMap";
+import AdjustButtons from "@/app/ui/map-controllers/AdjustButtons"
+import { notFound } from "next/navigation";
+
+type Props = {
+    params: { place_id: string, id: string },
+    searchParams: { viewstate: string, lat: string, lng: string }
+}
+
+async function Page({ params, searchParams }: Props) {
+
+    const place = await fetchPlace(+params.place_id);
+    const map = await fetchMapDetails(+params.id);
+    if (!place || !map) notFound();
+
+    const props = {
+        place_id: params.place_id,
+        map_id: params.id,
+        viewState: searchParams.viewstate,
+        lat: searchParams.lat,
+        lng: searchParams.lng
+    }
+
     return (
-        <div>Adjust Location</div>
+        <div className="absolute w-full h-screen top-0 left-0">
+            <AdjustMap origLat={place.lat} origLng={place.lng} emoji={place.emoji}>
+                <AdjustButtons props={props} />
+            </AdjustMap>
+        </div>
     )
 }
-export default page
+
+export default Page;

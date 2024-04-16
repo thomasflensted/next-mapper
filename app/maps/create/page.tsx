@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Cross2Icon } from "@radix-ui/react-icons"
-import CreateMapForm from "@/app/ui/forms/CreateMapForm"
+import CreateMapForm from "@/app/ui/forms/map/CreateMapForm"
 
 const Page = () => {
     return (

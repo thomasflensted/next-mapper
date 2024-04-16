@@ -7,10 +7,10 @@ import { useFormState } from "react-dom";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { createPlace } from "@/app/lib/placeActions";
 import { useSearchParams, useParams } from "next/navigation";
-import CategoryDropdown from "./form-components/CategoryDropdown";
-import EmojiPickerComponent from "./form-components/EmojiPickerComponent";
-import DescriptionInput from "./form-components/DescriptionInput";
-import NameInput from "./form-components/NameInput";
+import CategoryDropdown from "../form-components/CategoryDropdown";
+import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
+import DescriptionInput from "../form-components/DescriptionInput";
+import NameInput from "../form-components/NameInput";
 
 const CreatePlaceForm = () => {
 

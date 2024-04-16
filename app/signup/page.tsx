@@ -1,5 +1,5 @@
 import Link from "next/link"
-import SignUpForm from "../ui/forms/SignUpForm"
+import SignUpForm from "../ui/forms/user/SignUpForm"
 import { Cross2Icon, ArrowLeftIcon } from "@radix-ui/react-icons"
 
 const Page = () => {

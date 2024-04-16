@@ -1,14 +1,12 @@
 'use client'
 
-import Link from "next/link"
-import EmojiPicker from 'emoji-picker-react';
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { updateMap } from "@/app/lib/mapActions";
 import { useFormState } from "react-dom";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import NameInput from "./form-components/NameInput";
-import DescriptionInput from "./form-components/DescriptionInput";
-import EmojiPickerComponent from "./form-components/EmojiPickerComponent";
+import NameInput from "../form-components/NameInput";
+import DescriptionInput from "../form-components/DescriptionInput";
+import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
+import { useRouter } from "next/navigation";
 
 type FormProps = {
     defaultName: string,
@@ -21,20 +19,16 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji, map_id }: FormPro
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emoji, setEmoji] = useState(defaultEmoji);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
 
     const handleEmojiClick = (pickedEmoji: string) => {
         setEmoji(pickedEmoji);
         setShowEmojiPicker(false);
     }
 
-    useEffect(() => { inputRef?.current?.focus() }, [])
     const updateMapWithIdAndEmoji = updateMap.bind(null, +map_id, 1, emoji);
-
-
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(updateMapWithIdAndEmoji, initialState);
-    console.log(state);
 
     return (
         <form className="flex flex-col gap-6" action={dispatch}>
@@ -47,12 +41,12 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji, map_id }: FormPro
                 {state.errors?.description && <p className="text-red-500 text-xs font-light mt-1">{state.errors.description[0]}</p>}
             </DescriptionInput>
 
-            <EmojiPickerComponent emoji={defaultEmoji} showEmojiPicker={showEmojiPicker} setShowEmojiPicker={setShowEmojiPicker} handleEmojiClick={handleEmojiClick}>
+            <EmojiPickerComponent emoji={emoji} showEmojiPicker={showEmojiPicker} setShowEmojiPicker={setShowEmojiPicker} handleEmojiClick={handleEmojiClick}>
                 {state.errors?.validated_emoji && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_emoji[0]}</p>}
             </EmojiPickerComponent>
 
             <div className="flex gap-1">
-                <Link href={'/maps/' + map_id} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
+                <button type="reset" onClick={() => router.back()} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</button>
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
 

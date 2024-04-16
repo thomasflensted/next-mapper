@@ -1,6 +1,6 @@
 'use server'
-import { CreatePlaceFormSchema } from "./validationForms";
 
+import { CreatePlaceFormSchema, UpdateCoordsFormSchema, UpdatePlaceFormSchema } from "./validationForms";
 import { sql } from "@vercel/postgres"
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
@@ -13,7 +13,8 @@ export type State = {
     message?: string | null;
 };
 
-type createProps = {
+type PlaceProps = {
+    id: number,
     emoji: string,
     lat: number,
     lng: number,
@@ -21,7 +22,9 @@ type createProps = {
     viewState: string
 }
 
-export async function createPlace(placeProps: createProps, prevState: State, formData: FormData) {
+type CreatePlaceProps = Omit<PlaceProps, 'id'>;
+
+export async function createPlace(placeProps: CreatePlaceProps, prevState: State, formData: FormData) {
 
     const validatedFields = CreatePlaceFormSchema.safeParse({
         name: formData.get('name'),
@@ -53,4 +56,79 @@ export async function createPlace(placeProps: createProps, prevState: State, for
     }
     revalidatePath(`/maps/${placeProps.map_id}`);
     redirect(`/maps/${placeProps.map_id}?viewstate=${placeProps.viewState}`);
+}
+
+type UpdatePlaceProps = Omit<PlaceProps, 'lat' | 'lng'>;
+
+export async function updatePlace(placeProps: UpdatePlaceProps, prevState: State, formData: FormData) {
+
+    const validatedFields = UpdatePlaceFormSchema.safeParse({
+        validated_id: placeProps.id,
+        name: formData.get('name'),
+        description: formData.get('description'),
+        validated_emoji: placeProps.emoji,
+        category: formData.get('category'),
+        validated_map_id: placeProps.map_id
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Something went wrong.',
+        };
+    }
+
+    const { validated_id, validated_map_id, name, description, validated_emoji, category } = validatedFields.data;
+
+    try {
+        await sql`
+        UPDATE places
+        SET name = ${name},
+            description = ${description},
+            emoji = ${validated_emoji},
+            category = ${category},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ${validated_id}
+        AND map_id = ${validated_map_id}`
+    } catch (error) {
+        console.log(error);
+        return { message: "Database error: Failed to update place." }
+    }
+    revalidatePath(`/maps/${validated_map_id}`);
+    redirect(`/maps/${validated_map_id}?viewstate=${placeProps.viewState}&place=${validated_id}`);
+}
+
+type UpdateCoordsProps = Omit<PlaceProps, 'emoji'>
+
+export async function updatePlaceCoordinates(placeProps: UpdateCoordsProps) {
+
+    const validatedFields = UpdateCoordsFormSchema.safeParse({
+        validated_id: placeProps.id,
+        validated_lat: placeProps.lat,
+        validated_lng: placeProps.lng,
+        validated_map_id: placeProps.map_id
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Something went wrong.',
+        };
+    }
+
+    const { validated_id, validated_lat, validated_lng, validated_map_id } = validatedFields.data;
+
+    try {
+        await sql`
+        UPDATE places
+        SET lat = ${validated_lat},
+            lng = ${validated_lng}
+        WHERE id = ${validated_id}
+        AND map_id = ${validated_map_id}`
+    } catch (error) {
+        console.log(error);
+        return { message: "Database error: Failed to update place coordinates." }
+    }
+    revalidatePath(`/maps/${validated_map_id}`);
+    redirect(`/maps/${validated_map_id}?viewstate=${placeProps.viewState}&place=${validated_id}`);
 }

@@ -1,13 +1,11 @@
-import { fetchMapDetails } from "@/app/lib/data";
+import ControllerRow from "@/app/ui/map-controllers/ControllerRow";
 import DeleteMapButton from "@/app/ui/map/DeleteMapButton";
 import MapContainer from "@/app/ui/map/MapContainer";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import MapDetails from "@/app/ui/map/MapDetails";
 
 type PageProps = {
     params: { id: string },
-    searchParams: { filter: string[], view: string }
+    searchParams: { filter: string[], view: string, place: string }
 }
 
 export default async function Page({ params, searchParams }: PageProps) {
@@ -15,29 +13,13 @@ export default async function Page({ params, searchParams }: PageProps) {
     const id = params.id;
     const filter = searchParams.filter ? searchParams.filter : [];
     const view = !searchParams.view || !['marker', 'list'].includes(searchParams.view) ? 'marker' : searchParams.view;
-
-    const mapDetails = await fetchMapDetails(+id);
-    if (!mapDetails) notFound();
+    const currentPlace = searchParams.place;
 
     return (
-        <div className="flex flex-col gap-8 my-6 text-center">
-            <div className="text-center flex gap-6 flex-col items-center">
-                <p className="text-2xl mr-2">{mapDetails.emoji}</p>
-                <h1 className="font-semibold text-xl text-blue-600">{mapDetails.name}</h1>
-                {mapDetails.description && <p className="font-light text-blue-500 w-2/5 text-sm leading-6">{mapDetails.description}</p>}
-            </div>
-            <div className="flex gap-2 justify-center">
-                <Link href='/maps/'>
-                    <button className="w-auto group bg-white border font-light text-blue-600 rounded text-xs px-4 py-2 flex items-center hover:bg-gray-50">
-                        <ArrowLeftIcon className="mr-1 text-xs group-hover:-translate-x-2 transition-all ease-in-out duration-200" />
-                        Back To Map Overview
-                    </button>
-                </Link>
-                <Link href={`/maps/${id}/edit`}>
-                    <button className="bg-white border font-light text-blue-600 rounded text-xs px-4 py-2 hover:bg-gray-50">Edit Map Details</button>
-                </Link>
-            </div>
-            <MapContainer map_id={id} filter={filter} view={view} />
+        <div className="flex flex-col my-6 text-center">
+            <MapDetails map_id={+id} />
+            <ControllerRow />
+            <MapContainer map_id={id} filter={filter} view={view} currentPlace={currentPlace} />
             <DeleteMapButton />
         </div>
     )

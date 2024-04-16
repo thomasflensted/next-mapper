@@ -1,5 +1,4 @@
-
-import CreatePlaceForm from "@/app/ui/forms/CreatePlaceForm"
+import CreatePlaceForm from "@/app/ui/forms/place/CreatePlaceForm"
 import { Cross2Icon } from "@radix-ui/react-icons"
 import Link from "next/link"
 

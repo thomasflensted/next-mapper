@@ -1,11 +1,13 @@
 import Link from "next/link"
 import { Cross2Icon } from "@radix-ui/react-icons"
-import EditMapForm from "@/app/ui/forms/EditMapForm"
+import EditMapForm from "@/app/ui/forms/map/EditMapForm"
 import { fetchMapDetails } from "@/app/lib/data"
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: { id: string } }) {
 
     const mapDetails = await fetchMapDetails(+params.id);
+    if (!mapDetails) notFound();
 
     return (
         <div className="flex flex-col w-2/5 p-8 border mx-auto rounded-lg h-min shadow-lg relative">
