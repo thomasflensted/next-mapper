@@ -38,7 +38,6 @@ export async function fetchMapCount(user_id: number) {
 }
 
 export async function fetchMapDetails(id: number) {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
     type MapDetails = Omit<Map, 'id' | 'user_id'>;
     try {
         const data = await sql<MapDetails>`SELECT name, description, emoji FROM maps WHERE id = ${id}`;
@@ -60,7 +59,6 @@ export async function fetchPlaces(map_id: number) {
 }
 
 export async function fetchFilteredPlaces(filterArray: string[], map_id: number) {
-    noStore()
     try {
         const data = await sql<Place>`SELECT * FROM places WHERE map_id = ${map_id}`
         return !filterArray || filterArray.length === NUMBER_OF_FILTERS || filterArray.length === 0

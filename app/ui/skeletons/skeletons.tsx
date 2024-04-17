@@ -41,9 +41,28 @@ export function MapGridSkeleton() {
 export function MapSkeleton() {
     return (
         <div className={`${shimmer} flex items-center justify-center w-[90%] h-[700px] rounded-xl overflow-hidden shadow-lg border border-lg relative mx-auto cursor-pointer bg-gray-100`}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 px-5 py-3 bg-white border rounded-lg shadow-lg">
                 <p className="text-4xl">🗺️</p>
-                <p className="text-xl font-medium text-blue-500">Loading Map And Places...</p>
+                <p className="text-lg font-medium text-blue-500">Loading Map And Places...</p>
+            </div>
+        </div>
+    )
+}
+
+export function MapDetailsSkeleton() {
+    return (
+        <div className={`flex flex-col gap-6`}>
+            <div className="relative flex flex-col items-center gap-6 text-center">
+                <p className="mr-2 text-4xl">🗺️</p>
+                <div className="flex flex-col gap-1.5">
+                    <h1 className="text-xl font-semibold text-blue-600">Loading Map Details...</h1>
+                    <p className="text-xs font-medium text-blue-500">0 places</p>
+                </div>
+                <div className={`w-1/4 h-4 bg-gray-100 rounded-full`}></div>
+            </div>
+            <div className="flex justify-center gap-2">
+                <div className="flex items-center w-20 h-8 px-4 py-2 text-xs font-light text-blue-600 bg-white border rounded group hover:bg-gray-50"></div>
+                <div className="flex items-center w-20 h-8 px-4 py-2 text-xs font-light text-blue-600 bg-white border rounded group hover:bg-gray-50"></div>
             </div>
         </div>
     )
