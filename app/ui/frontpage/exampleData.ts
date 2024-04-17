@@ -1,11 +1,12 @@
 import { Place } from "@/app/lib/definitions"
 import { Map } from "@/app/lib/definitions"
 
-type PartialPlace = Omit<Place, 'have_been' | 'map_id'>;
+type PartialPlace = Omit<Place, 'have_been' | 'map_id' | 'created_at' | 'updated_at'>;
 
 export const examplePlaces: PartialPlace[] = [
     {
-        id: '1',
+        id: 1,
+        emoji: '🥗',
         name: 'Via Carota',
         category: 'restaurant',
         description: "Their insalate verde 🤤 To die for! Been too many times to count.",
@@ -13,7 +14,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: 40,
     },
     {
-        id: '2',
+        id: 2,
+        emoji: '🌲',
         name: 'Banff National Park',
         category: 'nature',
         description: "Was here with mom and dad back in 2014. Still thinking of the beauty. Gotta go back some day!",
@@ -21,14 +23,16 @@ export const examplePlaces: PartialPlace[] = [
         lng: 51,
     },
     {
-        id: '3',
+        id: 3,
+        emoji: '❤️',
         name: 'Where I met Mateo ❤️',
         category: 'memory',
         description: "Where I met Mateo for the first time when some of his friends and some of mine struck up a conversation on a lovely summer night. Want to go back with him.",
         lat: -75, lng: 6,
     },
     {
-        id: '4',
+        id: 4,
+        emoji: '🥞',
         name: 'Best breakfast ever!',
         category: 'restaurant',
         description: "Such a good breakfast! Anne and I were here on our long trip in 2023. Loved the zucchini hash brown. Wanna go back. Place is called benedict Café.",
@@ -36,7 +40,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: 43.26001,
     },
     {
-        id: '5',
+        id: 5,
+        emoji: '👺',
         name: 'Spirited Away in real life',
         category: 'sight',
         description: "Place with a lot of restaurants and a tower in middle from where you can overlook Osaka in its entirety. The place feels like walking around the fantasy world in Spirited Away.",
@@ -44,7 +49,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: 34.65255,
     },
     {
-        id: '6',
+        id: 6,
+        emoji: '🫘',
         name: 'Authentic coffee ☕️',
         category: 'cafe',
         description: "Real ethiopian coffee. Busy and feels very real. Get a macchiato like the locals!",
@@ -52,7 +58,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: 9.03084,
     },
     {
-        id: '7',
+        id: 7,
+        emoji: '🏨',
         name: 'Chiltern Firehouse',
         category: 'accommodation',
         description: "Probably the best hotel I've stayed at. Expensive, but worth it. Gotta splurge once in a while, right?",
@@ -60,7 +67,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: 51.51863,
     },
     {
-        id: '8',
+        id: 8,
+        emoji: '🖼️',
         name: 'Best Art Museum?',
         category: 'museum',
         description: "Visited with mom and dad back in 2012. Remember it as the first time art really 'clicked' for me. Gotta go back to explore again.",
@@ -68,7 +76,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: -33.86887,
     },
     {
-        id: '9',
+        id: 9,
+        emoji: '🏖️',
         name: 'Skeleton Coast',
         category: 'nature',
         description: "Wild place. Still thinking of that time we explored this national park in 70-series Landcruiser. What a dream.",
@@ -76,7 +85,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: -19.26697,
     },
     {
-        id: '10',
+        id: 0,
+        emoji: '🇮🇷',
         name: 'Magical city',
         category: 'sight',
         description: "Saw some videos of this city on Instagram. Looked like Prince of Persia in real life. Really want to go one day.",
@@ -84,7 +94,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: 31.89087,
     },
     {
-        id: '11',
+        id: 1,
+        emoji: '🕌',
         name: 'Timbuktu!',
         category: 'memory',
         description: "Feel lucky to have visited this place. Felt like going back in time.",
@@ -92,7 +103,8 @@ export const examplePlaces: PartialPlace[] = [
         lng: 16.77432,
     },
     {
-        id: '12',
+        id: 2,
+        emoji: '☕️',
         name: 'Great Coffee',
         category: 'cafe',
         description: "Peter recommended this place after he'd been to Buenos Aires. Should be great.",
