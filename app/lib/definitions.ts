@@ -41,6 +41,8 @@ export type Place = {
     have_been: boolean;
     map_id: string;
     emoji: string;
+    created_at: string,
+    updated_at: string
 }
 
 export type CreatePlace = Omit<Place, 'id'>;

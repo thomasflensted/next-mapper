@@ -10,17 +10,17 @@ const PopUpContent = ({ place }: { place: Place }) => {
 
     return (
         <div className='px-2 w-64 flex flex-col text-left gap-1.5'>
-            <div>
-                <h1 className='text-blue-600 font-medium text-lg inline'>{place.name}</h1>
-                <span className='inline ml-2 text-blue-400 text-[11px]'>{place.category.charAt(0).toUpperCase() + place.category.substring(1)}</span>
+            <div className="flex items-baseline overflow-hidden">
+                <h1 className='overflow-hidden text-lg font-medium text-blue-600 text-ellipsis whitespace-nowrap'>{place.name}</h1>
+                <p className=' ml-2 text-blue-400 text-[11px]'>{place.category.charAt(0).toUpperCase() + place.category.substring(1)}</p>
             </div>
             <hr />
             <p className='font-light'>{place.description}</p>
             <div className='flex gap-1.5 mt-1'>
-                <Link href={`${path}/place/${place.id}/edit?viewstate=${viewState}`} className='focus:outline-none w-full border text-center bg-white hover:bg-gray-50 text-blue-600 py-1 rounded'>
+                <Link href={`${path}/place/${place.id}/edit?viewstate=${viewState}`} className='w-full py-1 text-center text-blue-600 bg-white border rounded focus:outline-none hover:bg-gray-50'>
                     Update Details
                 </Link>
-                <Link href={`${path}/place/${place.id}/adjust?viewstate=${viewState}&lat=${place.lat}&lng=${place.lng}`} scroll={false} className="focus:outline-none bg-white hover:bg-gray-50 text-blue-600 border w-full py-1 rounded text-center">
+                <Link href={`${path}/place/${place.id}/adjust?viewstate=${viewState}&lat=${place.lat}&lng=${place.lng}`} scroll={false} className="w-full py-1 text-center text-blue-600 bg-white border rounded focus:outline-none hover:bg-gray-50">
                     Adjust Location
                 </Link>
             </div>

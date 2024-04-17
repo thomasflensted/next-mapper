@@ -1,7 +1,15 @@
+'use client'
+
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
+import { usePathname, useSearchParams } from "next/navigation"
 
-const SortItem = ({ currentSort, currentOrder, text, prop }: { currentSort: string, currentOrder: string, text: string, prop: string }) => {
+const SortItem = ({ text, prop }: { text: string, prop: string }) => {
+
+    const p = usePathname();
+    const sp = useSearchParams();
+    const currentSort = sp.has('sort') ? sp.get('sort') : 'created_at';
+    const currentOrder = sp.has('order') ? sp.get('order') : 'desc';
 
     const computeOrder = () => {
         if (currentSort !== prop) return 'desc';
@@ -9,8 +17,12 @@ const SortItem = ({ currentSort, currentOrder, text, prop }: { currentSort: stri
         return 'desc';
     }
 
+    const sortUrl = new URLSearchParams(sp);
+    sortUrl.set('order', computeOrder());
+    sortUrl.set('sort', prop);
+
     return (
-        <Link href={'/maps?sort=' + prop + '&order=' + computeOrder()} replace={true}>
+        <Link href={`${p}?${sortUrl.toString()}`} replace={true} scroll={false}>
             <div
                 className={`flex items-center gap-1 border ${currentSort === prop ? 'border-blue-500' : ''} rounded pl-1.5 pr-1 py-0.5 hover:text-blue-600 ${currentSort === prop ? 'text-blue-600' : 'text-blue-400'}`}>
                 <p className='text-xs'>{text}</p>

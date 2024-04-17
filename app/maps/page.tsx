@@ -1,6 +1,6 @@
 import { fetchUserDetails, fetchMapCount } from "../lib/data"
 import MapGrid from "../ui/map-overview/MapGrid";
-import SortRow from "../ui/map-overview/SortRow";
+import MapsSortRow from "../ui/map-overview/MapsSortRow";
 
 export default async function Page({ searchParams }: { searchParams: { sort: string, order: string } }) {
 
@@ -14,7 +14,7 @@ export default async function Page({ searchParams }: { searchParams: { sort: str
         <div className="flex flex-col items-center w-full gap-3 my-8">
             <h2 className="font-bold text-3xl text-blue-600">{'Welcome ' + userDetails.first_name}</h2>
             <p className="text-blue-600">{mapCount !== 0 ? 'Explore Your Maps' : 'Create Your First Map'}</p>
-            <SortRow currentSort={sort} currentOrder={order} />
+            <MapsSortRow />
             <MapGrid sort={sort} order={order} />
         </div>
     )

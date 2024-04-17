@@ -4,11 +4,12 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Place } from '@/app/lib/definitions';
 import { isValidPlaceID, useGetInitialView } from '@/app/scripts/helpers';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import Map, { MapRef } from 'react-map-gl';
 import Markers from '../map-components/Markers';
 import PopUpWithAddNew from '../map-components/PopUpWithAddNew';
 import PopUpWithInfo from '../map-components/PopUpWithInfo';
+import MapList from '../map-controllers/MapList';
 
 const MapComponent = ({ children, places }: { children?: ReactNode, places: Place[] }) => {
 
@@ -37,6 +38,7 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
     }
 
     const handleMarkerClick = (e: any, place_id: number) => {
+        flyToMarker(place_id);
         setShowPopup(false);
         e.originalEvent.stopPropagation();
         const newUrl = new URLSearchParams(searchParams);
@@ -44,6 +46,16 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
             ? newUrl.delete('place')
             : newUrl.set('place', place_id.toString())
         router.replace(`${path}?${newUrl.toString()}`, { scroll: false });
+    }
+
+    const flyToMarker = (place_id: number) => {
+        const thisPlace = places.find(place => place.id === place_id);
+        if (!thisPlace || !mapRef) return;
+        const mapContainsMarker = mapRef.current?.getBounds().contains({ lat: thisPlace?.lat, lng: thisPlace?.lng });
+        const currentZoomLevel = mapRef.current?.getZoom() || 1.5;
+        if (currentZoomLevel < 10 || !mapContainsMarker)
+            mapRef.current?.flyTo(
+                { center: [thisPlace.lng, thisPlace.lat], zoom: 10, speed: 2.5 })
     }
 
     return (
@@ -61,6 +73,7 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
             <Markers places={places} handleMarkerClick={handleMarkerClick} />
             {showPopup && !place_id && <PopUpWithAddNew lat={clickCoords.lat} lng={clickCoords.lng} />}
             {place_id && <PopUpWithInfo place={places.find(place => place.id === parseInt(place_id))!} />}
+            {searchParams.get('view') === 'list' && <MapList places={places} currentPlace={place_id} mapRef={mapRef} />}
             {children}
         </Map>
     )

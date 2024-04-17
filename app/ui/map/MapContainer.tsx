@@ -1,6 +1,5 @@
 import { fetchFilteredPlaces } from '@/app/lib/data';
 import MapComponent from './MapComponent';
-import MapList from '../map-controllers/MapList';
 
 type MapContainerProps = {
     map_id: string,
@@ -9,7 +8,7 @@ type MapContainerProps = {
     currentPlace: string
 }
 
-export async function MapContainer({ map_id, filter, view, currentPlace }: MapContainerProps) {
+export async function MapContainer({ map_id, filter }: MapContainerProps) {
 
     filter = typeof filter === 'string' ? [filter] : filter;
     const places = await fetchFilteredPlaces(filter, +map_id)
@@ -17,7 +16,7 @@ export async function MapContainer({ map_id, filter, view, currentPlace }: MapCo
     return (
         <div className="w-[90%] h-[700px] rounded-xl overflow-hidden shadow-lg border border-lg relative mx-auto cursor-pointer">
             <MapComponent places={places}>
-                {view === 'list' && <MapList places={places} currentPlace={currentPlace} />}
+                {/* {view === 'list' && <MapList places={places} currentPlace={currentPlace} />} */}
             </MapComponent>
         </div>
     )
