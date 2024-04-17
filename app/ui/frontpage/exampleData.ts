@@ -101,15 +101,15 @@ export const examplePlaces: PartialPlace[] = [
     },
 ]
 
-type PartialMap = Omit<Map, 'user_id'>;
+type PartialMap = Omit<Map, 'user_id' | 'created_at' | 'updated_at'>;
 
 export const exampleMaps: PartialMap[] = [
-    { id: '1', name: "Best CPH Restaurants", description: 'Best culinary experiences I had in Copenhagen.', emoji: '🍽️' },
-    { id: '2', name: "Amazing Nature", description: "Seen in real life or online.", emoji: '🌲' },
-    { id: '3', name: "Cofee Shops", description: 'Cute coffee shops I stumbled upon.', emoji: '☕' },
-    { id: '4', name: "Memories", description: 'Never forget these.', emoji: '🧠' },
-    { id: '5', name: "My Favorite Museums", description: 'Inspiring art and history.', emoji: '🖼️' },
-    { id: '6', name: "Sights That Are Worth It", description: 'Statue Of Liberty, go home.', emoji: '🗼' },
-    { id: '7', name: "Cute Hotels I Found", description: 'From quaint to extravagant.', emoji: '🏨' },
-    { id: '8', name: "Best Burgers", description: "Traditional and veggie.", emoji: '🍔' },
+    { id: 1, name: "Best CPH Restaurants", description: 'Best culinary experiences I had in Copenhagen.', emoji: '🍽️' },
+    { id: 2, name: "Amazing Nature", description: "Seen in real life or online.", emoji: '🌲' },
+    { id: 3, name: "Cofee Shops", description: 'Cute coffee shops I stumbled upon.', emoji: '☕' },
+    { id: 4, name: "Memories", description: 'Never forget these.', emoji: '🧠' },
+    { id: 5, name: "My Favorite Museums", description: 'Inspiring art and history.', emoji: '🖼️' },
+    { id: 6, name: "Sights That Are Worth It", description: 'Statue Of Liberty, go home.', emoji: '🗼' },
+    { id: 7, name: "Cute Hotels I Found", description: 'From quaint to extravagant.', emoji: '🏨' },
+    { id: 8, name: "Best Burgers", description: "Traditional and veggie.", emoji: '🍔' },
 ]
