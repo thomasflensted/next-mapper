@@ -3,11 +3,9 @@ import HeadingAndSignUp from "./ui/frontpage/HeadingAndSignUp"
 import TextBlockOne from "./ui/frontpage/TextBlockOne"
 import TextBlockTwo from "./ui/frontpage/TextBlockTwo"
 import UpcomingFeatures from "./ui/frontpage/UpcomingFeatures"
-import { auth } from "@/auth"
+import { seed } from "./lib/createTables"
 
 export default async function Home() {
-
-  //const session = await auth();
 
   return (
     <main className="flex flex-col items-center w-full gap-20 my-16">

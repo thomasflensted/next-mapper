@@ -32,7 +32,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/ui/forms"
+    "app/ui/forms",
+    "app/lib/createTables.ts"
   ],
   "exclude": [
     "node_modules"
