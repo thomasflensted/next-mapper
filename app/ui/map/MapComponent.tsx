@@ -5,7 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 import useGetInitialView from '@/app/hooks/useGetInitialView';
-import useFlyToMarker from '@/app/hooks/useFlyToMarker';
+import flyToMarker from '@/app/hooks/useFlyToMarker';
 import useGetValidPlace from '@/app/hooks/useGetValidPlace';
 
 // ui components
@@ -51,7 +51,7 @@ const MapComponent = ({ places }: { places: Place[] }) => {
     }
 
     const handleMarkerClick = (e: any, place_id: number) => {
-        useFlyToMarker(places, place_id, mapRef);
+        flyToMarker(places, place_id, mapRef);
         setShowPopup(false);
         e.originalEvent.stopPropagation();
         const newUrl = new URLSearchParams(searchParams);

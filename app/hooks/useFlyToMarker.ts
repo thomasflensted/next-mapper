@@ -2,7 +2,7 @@ import { Place } from "../lib/definitions";
 import { RefObject } from "react";
 import { MapRef } from "react-map-gl";
 
-export default function useFlyToMarker(places: Place[], place_id: number, mapRef: RefObject<MapRef> | undefined) {
+export default function flyToMarker(places: Place[], place_id: number, mapRef: RefObject<MapRef> | undefined) {
 
     const thisPlace = places.find(place => place.id === place_id);
     if (!thisPlace || !mapRef) return;

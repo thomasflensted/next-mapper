@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import PlacesSortRow from './PlacesSortRow'
 import { RefObject, useEffect } from 'react'
 import { MapRef } from 'react-map-gl'
-import useFlyToMarker from '@/app/hooks/useFlyToMarker'
+import flyToMarker from '@/app/hooks/useFlyToMarker'
 import { scrollElementIntoView, sortPlaces } from '@/app/scripts/helpers'
 
 const MapList = ({ places, currentPlace, mapRef }: { places: Place[], currentPlace: string | null, mapRef: RefObject<MapRef> | undefined }) => {
@@ -33,7 +33,7 @@ const MapList = ({ places, currentPlace, mapRef }: { places: Place[], currentPla
         e.stopPropagation();
         nextUrl.set('place', id.toString())
         router.replace(`${p}?${nextUrl.toString()}`, { scroll: false })
-        useFlyToMarker(places, id, mapRef);
+        flyToMarker(places, id, mapRef);
     }
 
     useEffect(() => {
