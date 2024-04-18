@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 
-const ViewRow = () => {
+const ViewToggle = () => {
 
     const sp = useSearchParams();
     const p = usePathname()
@@ -12,10 +12,10 @@ const ViewRow = () => {
 
     return (
         <Link href={`${p}?${nextUrl.toString()}`} scroll={false}>
-            <p className="font-medium text-blue-500 text-xs border px-2 py-0.5 rounded">
+            <p className="font-medium text-blue-500 text-xs border px-2 py-0.5 rounded hover:bg-gray-50">
                 {sp.has('view') ? 'Hide List' : 'Show List'}
             </p>
         </Link>
     )
 }
-export default ViewRow
+export default ViewToggle

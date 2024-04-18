@@ -1,8 +1,8 @@
-import { fetchMaps } from "@/app/lib/data";
 import Link from "next/link";
 import MapCard from "./MapCard";
 import CreateNewMapCard from "./CreateNewMapCard";
 import { Map } from "@/app/lib/definitions";
+import { fetchMaps } from "@/app/lib/data/mapData";
 
 export async function MapGrid({ sort, order }: { sort: string, order: string }) {
 

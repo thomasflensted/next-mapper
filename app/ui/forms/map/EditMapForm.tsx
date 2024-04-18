@@ -1,32 +1,37 @@
 'use client'
 
 import { useState } from "react";
-import { updateMap } from "@/app/lib/mapActions";
+import { updateMap } from "@/app/lib/actions/mapActions";
 import { useFormState } from "react-dom";
 import NameInput from "../form-components/NameInput";
 import DescriptionInput from "../form-components/DescriptionInput";
 import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 type FormProps = {
     defaultName: string,
     defaultDesc: string,
     defaultEmoji: string,
-    map_id: string,
 }
 
-const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji, map_id }: FormProps) => {
+const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji }: FormProps) => {
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emoji, setEmoji] = useState(defaultEmoji);
+
     const router = useRouter();
+    const p = useParams();
+    const sp = useSearchParams();
+
+    const returnSearchParams = new URLSearchParams(sp).toString();
+    const map_id = p.id;
 
     const handleEmojiClick = (pickedEmoji: string) => {
         setEmoji(pickedEmoji);
         setShowEmojiPicker(false);
     }
 
-    const updateMapWithIdAndEmoji = updateMap.bind(null, +map_id, 1, emoji);
+    const updateMapWithIdAndEmoji = updateMap.bind(null, +map_id, 1, emoji, returnSearchParams);
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(updateMapWithIdAndEmoji, initialState);
 
@@ -34,15 +39,15 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji, map_id }: FormPro
         <form className="flex flex-col gap-6" action={dispatch}>
 
             <NameInput defaultName={defaultName}>
-                {state.errors?.name && <p className="text-red-500 text-xs font-light mt-1">{state.errors.name[0]}</p>}
+                {state.errors?.name && <p className="mt-1 text-xs font-light text-red-500">{state.errors.name[0]}</p>}
             </NameInput>
 
             <DescriptionInput defaultDescription={defaultDesc}>
-                {state.errors?.description && <p className="text-red-500 text-xs font-light mt-1">{state.errors.description[0]}</p>}
+                {state.errors?.description && <p className="mt-1 text-xs font-light text-red-500">{state.errors.description[0]}</p>}
             </DescriptionInput>
 
             <EmojiPickerComponent emoji={emoji} showEmojiPicker={showEmojiPicker} setShowEmojiPicker={setShowEmojiPicker} handleEmojiClick={handleEmojiClick}>
-                {state.errors?.validated_emoji && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_emoji[0]}</p>}
+                {state.errors?.validated_emoji && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_emoji[0]}</p>}
             </EmojiPickerComponent>
 
             <div className="flex gap-1">
@@ -50,8 +55,8 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji, map_id }: FormPro
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
 
-            {state.errors?.validated_user_id && <p className="text-red-500 text-xs ml-2 font-light block">Something went wrong. Please sign out and in again.</p>}
-            {state.message && <p className="text-red-500 text-xs ml-2 font-light block">{state.message}</p>}
+            {state.errors?.validated_user_id && <p className="block ml-2 text-xs font-light text-red-500">Something went wrong. Please sign out and in again.</p>}
+            {state.message && <p className="block ml-2 text-xs font-light text-red-500">{state.message}</p>}
 
         </form>
     )

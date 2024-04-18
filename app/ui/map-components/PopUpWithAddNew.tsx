@@ -16,11 +16,10 @@ const PopUpWithAddNew = ({ lat, lng }: { lat: number, lng: number }) => {
             longitude={lng}
             latitude={lat}
             maxWidth='200'
-            closeButton={false}
-            anchor="bottom">
+            closeButton={false}>
             <div className='px-2'>
                 <Link href={`/maps/${id}/place/create?lat=${lat}&lng=${lng}&viewstate=${view}`}>
-                    <button className='mt-1 w-full bg-blue-500 hover:bg-blue-600 px-4 py-2 text-sm font-medium text-white rounded'>
+                    <button className='w-full px-4 py-2 mt-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600'>
                         Add New Place
                     </button>
                 </Link>

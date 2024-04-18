@@ -1,24 +1,28 @@
 import Link from "next/link"
 
-const NavBar = () => {
+export default async function NavBar() {
 
-    const user = false;
+    const user = true;
 
     return (
         <nav className="p-3">
             <ul className="flex justify-between">
-                <Link href={user ? '/maps' : '/'}>
-                    <li className="font-bold text-xl text-blue-600">Mapper</li>
+                <Link href={'/'}>
+                    <li className="text-xl font-bold text-blue-600">Mapper</li>
                 </Link>
                 <li>
-                    <Link href='/signin'>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded">
-                            {user ? 'Sign Out' : 'Sign In'}
+                    {!user &&
+                        <button className="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600">
+                            Sign Up
                         </button>
-                    </Link>
+                    }
+                    {user &&
+                        <button className="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600">
+                            Sign Out
+                        </button>
+                    }
                 </li>
             </ul>
         </nav>
     )
 }
-export default NavBar

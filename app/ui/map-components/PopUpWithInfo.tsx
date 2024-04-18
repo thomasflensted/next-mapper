@@ -12,7 +12,7 @@ const PopUpWithInfo = ({ place }: { place: Place }) => {
             key={place.lat + place.lng}
             longitude={place.lng}
             latitude={place.lat}
-            maxWidth='100'
+            maxWidth='200'
             closeButton={false}>
             <PopUpContent place={place} />
         </Popup >

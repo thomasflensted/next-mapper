@@ -3,8 +3,8 @@
 import Link from "next/link"
 import { useState, useRef, useEffect } from "react";
 import { useFormState } from "react-dom";
-import { updatePlace } from "@/app/lib/placeActions";
-import { useSearchParams, useParams, useRouter } from "next/navigation";
+import { deletePlace, updatePlace } from "@/app/lib/actions/placeActions";
+import { useSearchParams, useParams } from "next/navigation";
 import { Place } from "@/app/lib/definitions";
 import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
 import CategoryDropdown from "../form-components/CategoryDropdown";
@@ -34,29 +34,34 @@ const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) =>
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createPlaceWithArguments, initialState);
 
+    const handleDelete = () => {
+        deletePlace(place.id, +map_id, searchParams)
+    }
+
     return (
         <form className="flex flex-col gap-6" action={dispatch}>
 
             <NameInput defaultName={place.name}>
-                {state.errors?.name && <p className="text-red-500 text-xs mt-1 font-light block">{state.errors.name[0]}</p>}
+                {state.errors?.name && <p className="block mt-1 text-xs font-light text-red-500">{state.errors.name[0]}</p>}
             </NameInput>
 
             <DescriptionInput defaultDescription={place.description}>
-                {state.errors?.description && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.description[0]}</p>}
+                {state.errors?.description && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.description[0]}</p>}
             </DescriptionInput>
 
             <CategoryDropdown defaultCategory={place.category} />
-            {state.errors?.category && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.category[0]}</p>}
+            {state.errors?.category && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.category[0]}</p>}
 
             <EmojiPickerComponent emoji={emoji} showEmojiPicker={showEmojiPicker} handleEmojiClick={handleEmojiClick} setShowEmojiPicker={setShowEmojiPicker}>
-                {state.errors?.validated_emoji && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_emoji[0]}</p>}
+                {state.errors?.validated_emoji && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_emoji[0]}</p>}
             </EmojiPickerComponent>
 
             <div className="flex gap-1">
                 <Link href={`/maps/${map_id}?${backUrl}`} scroll={false} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
-            {state.errors?.validated_map_id && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_map_id[0]}</p>}
+
+            {state.errors?.validated_map_id && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_map_id[0]}</p>}
         </form >
     )
 }

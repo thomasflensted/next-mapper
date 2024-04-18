@@ -5,7 +5,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { useState, useRef, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { createPlace } from "@/app/lib/placeActions";
+import { createPlace } from "@/app/lib/actions/placeActions";
 import { useSearchParams, useParams } from "next/navigation";
 import CategoryDropdown from "../form-components/CategoryDropdown";
 import EmojiPickerComponent from "../form-components/EmojiPickerComponent";

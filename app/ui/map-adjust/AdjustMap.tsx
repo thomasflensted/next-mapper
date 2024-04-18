@@ -1,10 +1,10 @@
 'use client'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { useGetInitialView } from "@/app/scripts/helpers"
 import { ReactNode, useRef } from "react"
 import Map, { MapRef, Marker } from 'react-map-gl';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import useGetInitialView from '@/app/hooks/useGetInitialView';
 
 const AdjustMap = ({ children, origLat, origLng, emoji }: { children: ReactNode, origLat: number, origLng: number, emoji: string }) => {
 
@@ -54,7 +54,7 @@ const AdjustMap = ({ children, origLat, origLng, emoji }: { children: ReactNode,
                 longitude={parseFloat(searchParams.get('lng') as string)}
                 draggable={true}
                 onDragEnd={(e) => handleMapClickAndMarkerDrag(e.lngLat.lng, e.lngLat.lat)}>
-                <div className='bg-white h-7 w-7 flex items-center justify-center rounded-full shadow-lg border border-blue-500 cursor-pointer hover:scale-110 transition-all ease-in-out'>
+                <div className='flex items-center justify-center transition-all ease-in-out bg-white border border-blue-500 rounded-full shadow-lg cursor-pointer h-7 w-7 hover:scale-110'>
                     <p className='text-lg'>{emoji}</p>
                 </div>
             </Marker>

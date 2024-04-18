@@ -1,11 +1,11 @@
-//import FilterRow from "./FilterRow"
-import ViewRow from "./ViewRow"
+import FlyToToggle from "./FlyToToggle"
+import ViewToggle from "./ViewToggle"
 
 const ControllerRow = () => {
     return (
         <div className="flex w-[90%] mx-auto justify-end mb-1">
-            {/* <FilterRow/> */}
-            <ViewRow />
+            <FlyToToggle />
+            <ViewToggle />
         </div>
     )
 }

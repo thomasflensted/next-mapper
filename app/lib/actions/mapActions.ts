@@ -3,7 +3,7 @@
 import { sql } from "@vercel/postgres"
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
-import { CreateMapFormSchema, MapFormSchema } from "./validationForms"
+import { CreateMapFormSchema, MapFormSchema } from "../validationForms"
 
 export type State = {
     errors?: {
@@ -55,7 +55,7 @@ export async function createMap(user_id: number, emoji: string, prevState: State
     redirect('/maps/')
 }
 
-export async function updateMap(map_id: number, user_id: number, emoji: string, prevState: State, formData: FormData) {
+export async function updateMap(map_id: number, user_id: number, emoji: string, sp: string, prevState: State, formData: FormData) {
 
     const validatedFields = MapFormSchema.safeParse({
         id: map_id,
@@ -82,7 +82,10 @@ export async function updateMap(map_id: number, user_id: number, emoji: string, 
     } catch (error) {
         return { message: "Database error: Failed to create map." }
     }
+
     revalidatePath('/maps/')
     revalidatePath('/maps/' + id)
-    redirect('/maps/' + id);
+    revalidatePath('/maps/' + id + '/edit')
+
+    redirect('/maps/' + id + `?${sp}`);
 }

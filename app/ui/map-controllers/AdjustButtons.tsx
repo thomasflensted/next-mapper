@@ -1,6 +1,6 @@
 'use client'
 
-import { updatePlaceCoordinates } from "@/app/lib/placeActions"
+import { updatePlaceCoordinates } from "@/app/lib/actions/placeActions"
 import Link from "next/link"
 
 const AdjustButtons = ({ props }: { props: { map_id: string, place_id: string, viewState: string, lat: string, lng: string } }) => {

@@ -1,4 +1,5 @@
-import { fetchMapDetails, fetchPlace } from "@/app/lib/data"
+import { fetchMapDetails } from "@/app/lib/data/mapData";
+import { fetchPlace } from "@/app/lib/data/placeData";
 import AdjustMap from "@/app/ui/map-adjust/AdjustMap";
 import AdjustButtons from "@/app/ui/map-controllers/AdjustButtons"
 import { notFound } from "next/navigation";
@@ -23,7 +24,7 @@ async function Page({ params, searchParams }: Props) {
     }
 
     return (
-        <div className="absolute w-full h-screen top-0 left-0">
+        <div className="absolute top-0 left-0 w-full h-screen">
             <AdjustMap origLat={place.lat} origLng={place.lng} emoji={place.emoji}>
                 <AdjustButtons props={props} />
             </AdjustMap>

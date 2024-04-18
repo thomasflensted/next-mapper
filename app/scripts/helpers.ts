@@ -6,15 +6,6 @@ export const validateFilters = (strArr: string[]) => {
     const validatedFilters = strArr.filter(filter => validFilters.includes(filter))
 }
 
-export const useGetInitialView = () => {
-    const searchParams = useSearchParams();
-    if (!searchParams.has('viewstate')) return { longitude: 15, latitude: 20, zoom: 1.5 };
-    const viewProps = searchParams.get('viewstate')?.split(',');
-    const viewPropsAsNumbers = viewProps?.map(number => parseFloat(number));
-    return viewPropsAsNumbers
-        ? { longitude: viewPropsAsNumbers[0], latitude: viewPropsAsNumbers[1], zoom: viewPropsAsNumbers[2] }
-        : { longitude: 15, latitude: 20, zoom: 1.5 };
-}
 
 export const isValidPlaceID = (id: string | null, placeArray: Place[]) => {
     if (!id) return false;

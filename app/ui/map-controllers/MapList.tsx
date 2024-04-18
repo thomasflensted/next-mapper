@@ -3,9 +3,10 @@
 import { Place } from '@/app/lib/definitions'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import PlacesSortRow from './PlacesSortRow'
-import { scrollElementIntoView, sortPlaces } from '@/app/scripts/helpers'
 import { RefObject, useEffect } from 'react'
 import { MapRef } from 'react-map-gl'
+import useFlyToMarker from '@/app/hooks/useFlyToMarker'
+import { scrollElementIntoView, sortPlaces } from '@/app/scripts/helpers'
 
 const MapList = ({ places, currentPlace, mapRef }: { places: Place[], currentPlace: string | null, mapRef: RefObject<MapRef> | undefined }) => {
 
@@ -32,17 +33,7 @@ const MapList = ({ places, currentPlace, mapRef }: { places: Place[], currentPla
         e.stopPropagation();
         nextUrl.set('place', id.toString())
         router.replace(`${p}?${nextUrl.toString()}`, { scroll: false })
-        flyToMarker(id);
-    }
-
-    const flyToMarker = (place_id: number) => {
-        const thisPlace = places.find(place => place.id === place_id);
-        if (!thisPlace || !mapRef) return;
-        const mapContainsMarker = mapRef.current?.getBounds().contains({ lat: thisPlace?.lat, lng: thisPlace?.lng });
-        const currentZoomLevel = mapRef.current?.getZoom() || 1.5;
-        if (currentZoomLevel < 10 || !mapContainsMarker)
-            mapRef.current?.flyTo(
-                { center: [thisPlace.lng, thisPlace.lat], zoom: 10, speed: 2.5 })
+        useFlyToMarker(places, id, mapRef);
     }
 
     useEffect(() => {

@@ -1,27 +1,40 @@
 'use client'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { Place } from '@/app/lib/definitions';
-import { isValidPlaceID, useGetInitialView } from '@/app/scripts/helpers';
+// hooks and helpers
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import Map, { MapRef } from 'react-map-gl';
-import Markers from '../map-components/Markers';
+import { useRef, useState } from 'react';
+import useGetInitialView from '@/app/hooks/useGetInitialView';
+import useFlyToMarker from '@/app/hooks/useFlyToMarker';
+import useGetValidPlace from '@/app/hooks/useGetValidPlace';
+
+// ui components
 import PopUpWithAddNew from '../map-components/PopUpWithAddNew';
 import PopUpWithInfo from '../map-components/PopUpWithInfo';
 import MapList from '../map-controllers/MapList';
+import Markers from '../map-components/Markers';
 
-const MapComponent = ({ children, places }: { children?: ReactNode, places: Place[] }) => {
+// react map gl
+import Map, { MapRef, FullscreenControl } from 'react-map-gl';
+import { GeolocateControl } from "react-map-gl";
+import GeoCoder from '../map-controllers/GeoCoder';
+
+// types
+import { Place } from '@/app/lib/definitions';
+
+const MapComponent = ({ places }: { places: Place[] }) => {
 
     const mapRef = useRef<MapRef>(null);
-    const router = useRouter();
-    const initialViewState = useGetInitialView();
-    const searchParams = useSearchParams()
-    const path = usePathname();
 
-    const [clickCoords, setClickCoords] = useState({ lat: 0, lng: 0 });
+    const path = usePathname();
+    const router = useRouter();
+    const searchParams = useSearchParams()
+    const initialViewState = useGetInitialView();
+
     const [showPopup, setShowPopup] = useState(false);
-    const place_id = isValidPlaceID(searchParams.get('place'), places) ? searchParams.get('place') : null;
+    const [clickCoords, setClickCoords] = useState({ lat: 0, lng: 0 });
+
+    const place_id = useGetValidPlace(places);
 
     const handleMapClick = (lat: number, lng: number) => {
         const newUrl = new URLSearchParams(searchParams)
@@ -38,7 +51,7 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
     }
 
     const handleMarkerClick = (e: any, place_id: number) => {
-        flyToMarker(place_id);
+        useFlyToMarker(places, place_id, mapRef);
         setShowPopup(false);
         e.originalEvent.stopPropagation();
         const newUrl = new URLSearchParams(searchParams);
@@ -46,16 +59,6 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
             ? newUrl.delete('place')
             : newUrl.set('place', place_id.toString())
         router.replace(`${path}?${newUrl.toString()}`, { scroll: false });
-    }
-
-    const flyToMarker = (place_id: number) => {
-        const thisPlace = places.find(place => place.id === place_id);
-        if (!thisPlace || !mapRef) return;
-        const mapContainsMarker = mapRef.current?.getBounds().contains({ lat: thisPlace?.lat, lng: thisPlace?.lng });
-        const currentZoomLevel = mapRef.current?.getZoom() || 1.5;
-        if (currentZoomLevel < 10 || !mapContainsMarker)
-            mapRef.current?.flyTo(
-                { center: [thisPlace.lng, thisPlace.lat], zoom: 10, speed: 2.5 })
     }
 
     return (
@@ -70,11 +73,16 @@ const MapComponent = ({ children, places }: { children?: ReactNode, places: Plac
             onZoomEnd={handleDragAndZoom}
             dragRotate={false}
             attributionControl={false}>
+
+            <GeoCoder />
+            <FullscreenControl position='top-left' />
+            <GeolocateControl position='bottom-right' />
             <Markers places={places} handleMarkerClick={handleMarkerClick} />
             {showPopup && !place_id && <PopUpWithAddNew lat={clickCoords.lat} lng={clickCoords.lng} />}
             {place_id && <PopUpWithInfo place={places.find(place => place.id === parseInt(place_id))!} />}
             {searchParams.get('view') === 'list' && <MapList places={places} currentPlace={place_id} mapRef={mapRef} />}
-            {children}
+
+
         </Map>
     )
 }

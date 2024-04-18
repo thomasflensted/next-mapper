@@ -1,6 +1,6 @@
 'use server'
 
-import { CreatePlaceFormSchema, UpdateCoordsFormSchema, UpdatePlaceFormSchema } from "./validationForms";
+import { CreatePlaceFormSchema, UpdateCoordsFormSchema, UpdatePlaceFormSchema } from "../validationForms";
 import { sql } from "@vercel/postgres"
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
@@ -131,4 +131,18 @@ export async function updatePlaceCoordinates(placeProps: UpdateCoordsProps) {
     }
     revalidatePath(`/maps/${validated_map_id}`);
     redirect(`/maps/${validated_map_id}?viewstate=${placeProps.viewState}&place=${validated_id}`);
+}
+
+export async function deletePlace(place_id: number, map_id: number, searchParams: URLSearchParams) {
+
+    try {
+        await sql`
+        DELETE FROM places WHERE id = ${place_id}`
+    } catch (error) {
+        console.log(error);
+        return { message: "Database error: Failed to update place coordinates." }
+    }
+
+    revalidatePath(`/maps/${map_id}`)
+    redirect(`/maps/${map_id}?${searchParams.toString()}`)
 }

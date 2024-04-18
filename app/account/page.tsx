@@ -1,5 +1,3 @@
-import { fetchUserDetails } from "../lib/data"
-
 export default async function Page() {
 
     //const userDetails = await fetchUserDetails();

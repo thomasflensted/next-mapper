@@ -1,9 +1,11 @@
-import { fetchMapDetails, fetchPlaceCount } from "@/app/lib/data";
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import { notFound } from "next/navigation";
+import { fetchMapDetails } from "@/app/lib/data/mapData";
+import { fetchPlaceCount } from "@/app/lib/data/placeData";
+import { URLSearchParams } from "url";
 
-async function MapDetails({ map_id }: { map_id: number }) {
+async function MapDetails({ map_id, sp }: { map_id: number, sp: URLSearchParams }) {
 
     const mapDetails = await fetchMapDetails(map_id);
     const placeCount = await fetchPlaceCount(map_id);
@@ -26,7 +28,7 @@ async function MapDetails({ map_id }: { map_id: number }) {
                         Back To Map Overview
                     </button>
                 </Link>
-                <Link href={`/maps/${map_id}/edit`}>
+                <Link href={`/maps/${map_id}/edit?${sp.toString()}`}>
                     <button className="px-4 py-2 text-xs font-light text-blue-600 bg-white border rounded hover:bg-gray-50">Edit Map Details</button>
                 </Link>
             </div>

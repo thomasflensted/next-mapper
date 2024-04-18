@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { createMap } from "@/app/lib/mapActions";
+import { createMap } from "@/app/lib/actions/mapActions";
 import { useFormState } from "react-dom";
 import NameInput from "../form-components/NameInput";
 import DescriptionInput from "../form-components/DescriptionInput";

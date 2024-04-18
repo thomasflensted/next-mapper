@@ -39,7 +39,7 @@ export type Place = {
     lng: number;
     category: PlaceCategory;
     have_been: boolean;
-    map_id: string;
+    map_id: number;
     emoji: string;
     created_at: string,
     updated_at: string
