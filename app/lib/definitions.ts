@@ -17,18 +17,17 @@ export type UserDetails = {
 
 export type CreateUserDetails = Omit<UserDetails, 'id' | 'profile_picture'>;
 
-// MAP TYPES
-export type Map = {
-    id: number;
-    name: string;
-    description: string;
-    emoji: string,
-    created_at: string,
-    updated_at: string,
-    user_id: number;
-}
+// export type Map = {
+//     id: number;
+//     name: string;
+//     description: string;
+//     emoji: string,
+//     created_at: string,
+//     updated_at: string,
+//     user_id: number;
+// }
 
-export type CreateMap = Omit<Map, 'id'>;
+//export type CreateMap = Omit<Map, 'id'>;
 
 // PLACE TYPES
 export type Place = {

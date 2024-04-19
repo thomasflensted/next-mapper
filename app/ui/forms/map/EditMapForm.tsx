@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { updateMap } from "@/app/lib/actions/mapActions";
+import { updateMap } from "@/app/data/actions/mapActions";
 import { useFormState } from "react-dom";
 import NameInput from "../form-components/NameInput";
 import DescriptionInput from "../form-components/DescriptionInput";
@@ -29,9 +29,10 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji }: FormProps) => {
     const handleEmojiClick = (pickedEmoji: string) => {
         setEmoji(pickedEmoji);
         setShowEmojiPicker(false);
+        console.log(emoji);
     }
 
-    const updateMapWithIdAndEmoji = updateMap.bind(null, +map_id, 1, emoji, returnSearchParams);
+    const updateMapWithIdAndEmoji = updateMap.bind(null, +map_id, emoji, returnSearchParams);
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(updateMapWithIdAndEmoji, initialState);
 
@@ -55,7 +56,6 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji }: FormProps) => {
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
 
-            {state.errors?.validated_user_id && <p className="block ml-2 text-xs font-light text-red-500">Something went wrong. Please sign out and in again.</p>}
             {state.message && <p className="block ml-2 text-xs font-light text-red-500">{state.message}</p>}
 
         </form>

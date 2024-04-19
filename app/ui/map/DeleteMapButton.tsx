@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteMap } from '@/app/lib/actions/mapActions'
+import { deleteMap } from '@/app/data/actions/mapActions'
 import * as Alert from '@radix-ui/react-alert-dialog';
 import { useParams } from 'next/navigation'
 

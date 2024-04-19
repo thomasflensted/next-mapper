@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
-import { createMap } from "@/app/lib/actions/mapActions";
+import { useState } from "react";
+import { createMap } from "@/app/data/actions/mapActions";
 import { useFormState } from "react-dom";
 import NameInput from "../form-components/NameInput";
 import DescriptionInput from "../form-components/DescriptionInput";
@@ -27,15 +27,15 @@ const CreateMapForm = () => {
         <form className="flex flex-col gap-6" action={dispatch}>
 
             <NameInput defaultName="">
-                {state.errors?.name && <p className="text-red-500 text-xs font-light mt-1">{state.errors.name[0]}</p>}
+                {state.errors?.name && <p className="mt-1 text-xs font-light text-red-500">{state.errors.name[0]}</p>}
             </NameInput>
 
             <DescriptionInput defaultDescription="">
-                {state.errors?.description && <p className="text-red-500 text-xs font-light mt-1">{state.errors.description[0]}</p>}
+                {state.errors?.description && <p className="mt-1 text-xs font-light text-red-500">{state.errors.description[0]}</p>}
             </DescriptionInput>
 
             <EmojiPickerComponent emoji={emoji} showEmojiPicker={showEmojiPicker} setShowEmojiPicker={setShowEmojiPicker} handleEmojiClick={handleEmojiClick}>
-                {state.errors?.validated_emoji && <p className="text-red-500 text-xs ml-2 font-light block">{state.errors.validated_emoji[0]}</p>}
+                {state.errors?.validated_emoji && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_emoji[0]}</p>}
             </EmojiPickerComponent>
 
             <div className="flex gap-1">
@@ -43,8 +43,8 @@ const CreateMapForm = () => {
                 <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
             </div>
 
-            {state.errors?.validated_user_id && <p className="text-red-500 text-xs ml-2 font-light block">Something went wrong. Please sign out and in again.</p>}
-            {state.message && <p className="text-red-500 text-xs ml-2 font-light block">{state.message}</p>}
+            {state.errors?.validated_user_id && <p className="block ml-2 text-xs font-light text-red-500">Something went wrong. Please sign out and in again.</p>}
+            {state.message && <p className="block ml-2 text-xs font-light text-red-500">{state.message}</p>}
         </form >
     )
 }

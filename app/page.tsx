@@ -1,9 +1,9 @@
+import { getUser } from "./data/users"
 import ExampleMaps from "./ui/frontpage/ExampleMaps"
 import HeadingAndSignUp from "./ui/frontpage/HeadingAndSignUp"
 import TextBlockOne from "./ui/frontpage/TextBlockOne"
 import TextBlockTwo from "./ui/frontpage/TextBlockTwo"
 import UpcomingFeatures from "./ui/frontpage/UpcomingFeatures"
-import { seed } from "./lib/createTables"
 
 export default async function Home() {
 

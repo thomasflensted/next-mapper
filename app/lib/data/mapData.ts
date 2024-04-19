@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+/*import { sql } from "@vercel/postgres";
 import { Map } from "../definitions";
 import { unstable_noStore } from "next/cache";
 
@@ -40,3 +40,4 @@ export async function fetchMapDetails(id: number) {
         throw new Error('Failed to fetch maps.');
     }
 }
+*/

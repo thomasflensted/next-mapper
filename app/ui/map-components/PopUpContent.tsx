@@ -1,4 +1,4 @@
-import { Place } from "@/app/lib/definitions"
+import { Place } from "@/app/data/places";
 import Link from "next/link"
 import { usePathname, useSearchParams } from 'next/navigation';
 

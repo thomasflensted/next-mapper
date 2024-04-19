@@ -1,14 +1,14 @@
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import { notFound } from "next/navigation";
-import { fetchMapDetails } from "@/app/lib/data/mapData";
-import { fetchPlaceCount } from "@/app/lib/data/placeData";
 import { URLSearchParams } from "url";
+import { selectMapDetails, MapDetailsType } from "@/app/data/maps";
+import { selectPlaceCount } from "@/app/data/places";
 
 async function MapDetails({ map_id, sp }: { map_id: number, sp: URLSearchParams }) {
 
-    const mapDetails = await fetchMapDetails(map_id);
-    const placeCount = await fetchPlaceCount(map_id);
+    const mapDetails: MapDetailsType = await selectMapDetails(map_id) //fetchMapDetails(map_id);
+    const placeCount = await selectPlaceCount(map_id);
     if (!mapDetails) notFound();
 
     return (

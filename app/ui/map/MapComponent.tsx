@@ -5,8 +5,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 import useGetInitialView from '@/app/hooks/useGetInitialView';
-import flyToMarker from '@/app/hooks/useFlyToMarker';
 import useGetValidPlace from '@/app/hooks/useGetValidPlace';
+import { flyToMarker } from '@/app/lib/helpers';
 
 // ui components
 import PopUpWithAddNew from '../map-components/PopUpWithAddNew';
@@ -20,7 +20,7 @@ import { GeolocateControl } from "react-map-gl";
 import GeoCoder from '../map-controllers/GeoCoder';
 
 // types
-import { Place } from '@/app/lib/definitions';
+import { Place } from '@/app/data/places';
 
 const MapComponent = ({ places }: { places: Place[] }) => {
 

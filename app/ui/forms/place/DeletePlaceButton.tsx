@@ -1,9 +1,9 @@
 'use client'
 
 import * as Alert from '@radix-ui/react-alert-dialog';
-import { deletePlace } from "@/app/lib/actions/placeActions"
-import { Place } from "@/app/lib/definitions"
+import { deletePlace } from "@/app/data/actions/placeActions"
 import { useSearchParams } from "next/navigation"
+import { Place } from '@/app/data/places';
 
 const DeletePlaceButton = ({ place }: { place: Place }) => {
 

@@ -1,12 +1,11 @@
 'use client'
 
-import { Place } from '@/app/lib/definitions'
+import { Place } from '@/app/data/places'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import PlacesSortRow from './PlacesSortRow'
 import { RefObject, useEffect } from 'react'
 import { MapRef } from 'react-map-gl'
-import flyToMarker from '@/app/hooks/useFlyToMarker'
-import { scrollElementIntoView, sortPlaces } from '@/app/scripts/helpers'
+import { flyToMarker, scrollElementIntoView, sortPlaces } from '@/app/lib/helpers'
 
 const MapList = ({ places, currentPlace, mapRef }: { places: Place[], currentPlace: string | null, mapRef: RefObject<MapRef> | undefined }) => {
 
@@ -60,7 +59,7 @@ const MapList = ({ places, currentPlace, mapRef }: { places: Place[], currentPla
                         <button onClick={(e) => handleEditClick(e, place.id)} className='w-full py-1 text-center text-blue-600 bg-white border rounded focus:outline-none hover:bg-gray-50'>
                             Update Details
                         </button>
-                        <button onClick={(e) => handleAdjustClick(e, place.id, place.lat, place.lng)} className="w-full py-1 text-center text-blue-600 bg-white border rounded focus:outline-none hover:bg-gray-50">
+                        <button onClick={(e) => handleAdjustClick(e, place.id, +place.lat, +place.lng)} className="w-full py-1 text-center text-blue-600 bg-white border rounded focus:outline-none hover:bg-gray-50">
                             Adjust Location
                         </button>
                     </div>

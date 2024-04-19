@@ -1,6 +1,6 @@
 'use client'
 
-import { Place } from '@/app/lib/definitions';
+import { Place } from '@/app/data/places';
 import { Popup } from 'react-map-gl';
 import PopUpContent from './PopUpContent';
 
@@ -10,8 +10,8 @@ const PopUpWithInfo = ({ place }: { place: Place }) => {
         <Popup
             offset={17}
             key={place.lat + place.lng}
-            longitude={place.lng}
-            latitude={place.lat}
+            longitude={+place.lng}
+            latitude={+place.lat}
             maxWidth='200'
             closeButton={false}>
             <PopUpContent place={place} />

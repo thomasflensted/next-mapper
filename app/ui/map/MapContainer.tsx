@@ -1,16 +1,13 @@
-import { fetchFilteredPlaces } from '@/app/lib/data/placeData';
 import MapComponent from './MapComponent';
+import { Place, selectPlaces } from '@/app/data/places';
 
 type MapContainerProps = {
-    map_id: string,
-    view: string,
-    currentPlace: string
+    map_id: string
 }
 
 export async function MapContainer({ map_id }: MapContainerProps) {
 
-    const filter = null;
-    const places = await fetchFilteredPlaces(filter, +map_id)
+    const places: Place[] = await selectPlaces(+map_id)
 
     return (
         <div className="w-[90%] h-[700px] rounded-xl overflow-hidden shadow-lg border border-lg relative mx-auto cursor-pointer">

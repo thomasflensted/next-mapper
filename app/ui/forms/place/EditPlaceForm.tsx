@@ -3,13 +3,13 @@
 import Link from "next/link"
 import { useState, useRef, useEffect } from "react";
 import { useFormState } from "react-dom";
-import { deletePlace, updatePlace } from "@/app/lib/actions/placeActions";
+import { updatePlace } from "@/app/data/actions/placeActions";
 import { useSearchParams, useParams } from "next/navigation";
-import { Place } from "@/app/lib/definitions";
 import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
 import CategoryDropdown from "../form-components/CategoryDropdown";
 import DescriptionInput from "../form-components/DescriptionInput";
 import NameInput from "../form-components/NameInput";
+import { Place, UpdatePlaceWithoutFormData } from "@/app/data/places";
 
 const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) => {
 
@@ -28,15 +28,11 @@ const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) =>
         setShowEmojiPicker(false);
     }
 
-    const placeProps = { id: place.id, emoji, map_id: +map_id, viewState }
-    const createPlaceWithArguments = updatePlace.bind(null, placeProps);
+    const placeProps: UpdatePlaceWithoutFormData = { id: place.id, emoji, map_id: +map_id }
+    const createPlaceWithArguments = updatePlace.bind(null, placeProps, viewState);
 
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createPlaceWithArguments, initialState);
-
-    const handleDelete = () => {
-        deletePlace(place.id, +map_id, searchParams)
-    }
 
     return (
         <form className="flex flex-col gap-6" action={dispatch}>

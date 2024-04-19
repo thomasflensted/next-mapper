@@ -1,6 +1,5 @@
 import { useSearchParams } from "next/navigation";
-import { Place } from "../lib/definitions";
-
+import { Place } from "../data/places";
 export default function useGetValidPlace(places: Place[]) {
 
     const sp = useSearchParams();
