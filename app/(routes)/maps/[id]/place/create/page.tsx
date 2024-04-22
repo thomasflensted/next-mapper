@@ -4,7 +4,7 @@ import { Cross2Icon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import { redirect } from "next/navigation";
 
-export async function Page({ params, searchParams }: { params: { id: string }, searchParams: { viewstate: string } }) {
+export default async function Page({ params, searchParams }: { params: { id: string }, searchParams: { viewstate: string } }) {
 
     const session = await auth();
     if (!session || !session.user) redirect('/');
