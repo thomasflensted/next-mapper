@@ -2,7 +2,7 @@ import { selectMapCount } from "@/app/data/maps";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-export async function MapOverviewHeading() {
+export async function MapOverviewTop() {
 
     const session = await auth();
     if (!session || !session.user) redirect('/');

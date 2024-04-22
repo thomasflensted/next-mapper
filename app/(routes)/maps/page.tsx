@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import MapGrid from "../../ui/map-overview/MapGrid";
 import MapsSortRow from "../../ui/map-overview/MapsSortRow";
-import { MapOverviewHeading } from "../../ui/map-overview/MapOverviewHeading";
 import { MapGridSkeleton, MapoverViewHeadingSkeleton } from "../../ui/skeletons/skeletons";
+import { MapOverviewTop } from "@/app/ui/map-overview/MapOverviewTop";
 
 export default async function Page({ searchParams }: { searchParams: { sort: string, order: string } }) {
 
@@ -12,7 +12,7 @@ export default async function Page({ searchParams }: { searchParams: { sort: str
     return (
         <div className="flex flex-col items-center w-full gap-6">
             <Suspense fallback={<MapoverViewHeadingSkeleton />}>
-                <MapOverviewHeading />
+                <MapOverviewTop />
             </Suspense>
             <MapsSortRow />
             <Suspense fallback={<MapGridSkeleton />}>
