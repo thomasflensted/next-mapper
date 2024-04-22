@@ -14,7 +14,7 @@ export type UpdatePlaceWithoutFormData = Omit<UpdatePlace, 'name' | 'description
 export type PlaceDetails = { name: string, description: string, emoji: string, category: string };
 
 // INSERT PLACE
-export async function insertPlace(newPlace: NewPlace): Promise<number> {
+export async function insertPlace(newPlace: Omit<NewPlace, 'user_id'>): Promise<number> {
 
     const headersList = headers();
     const user_id = getUserIdFromHeader(headersList);
