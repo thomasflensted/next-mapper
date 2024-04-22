@@ -19,4 +19,3 @@ export async function Page({ params, searchParams }: { params: { id: string }, s
         </div>
     )
 }
-export default Page
