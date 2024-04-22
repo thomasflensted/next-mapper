@@ -62,8 +62,8 @@ const ExampleMap = () => {
                     onClick={(e) => handleMapClick(e.lngLat.lat, e.lngLat.lng)}
                     reuseMaps={true}
                     ref={mapRef}
-                    mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-                    mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE}
+                    mapboxAccessToken={process.env.MAPBOX_TOKEN}
+                    mapStyle={process.env.MAPBOX_STYLE}
                     initialViewState={{ latitude: 15, longitude: 25, zoom: 1.5 }}
                     dragRotate={false}
                     attributionControl={false}>
