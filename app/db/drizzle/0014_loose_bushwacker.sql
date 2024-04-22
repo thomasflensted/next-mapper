@@ -1,0 +1,1 @@
+ALTER TABLE "place" ALTER COLUMN "user_id" SET DATA TYPE text;

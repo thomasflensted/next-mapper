@@ -3,11 +3,11 @@ import EditMapForm from "@/app/ui/forms/map/EditMapForm"
 import { Cross2Icon } from "@radix-ui/react-icons"
 import { notFound } from "next/navigation";
 import DeleteMapButton from "@/app/ui/map/DeleteMapButton";
-import { selectMapDetails } from "@/app/data/maps";
+import { MapDetailsType, selectMapDetails } from "@/app/data/maps";
 
 export default async function Page({ params }: { params: { id: string } }) {
 
-    const mapDetails = await selectMapDetails(+params.id);
+    const mapDetails: MapDetailsType = await selectMapDetails(+params.id);
     if (!mapDetails) notFound();
 
     return (

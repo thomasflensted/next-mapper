@@ -1,8 +1,12 @@
+import { auth } from '@/auth';
 import MapComponent from './MapComponent';
 import { Place, selectPlaces } from '@/app/data/places';
+import { redirect } from 'next/navigation';
 
 export async function MapContainer({ map_id }: { map_id: string }) {
 
+    const session = await auth();
+    if (!session) redirect('/');
     const places: Place[] = await selectPlaces(+map_id)
 
     return (

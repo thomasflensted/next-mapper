@@ -1,20 +1,26 @@
 import { places } from "../db/schemas/placeSchema";
 import { db } from "../db/db";
-import { eq, count } from "drizzle-orm";
+import { eq, count, and } from "drizzle-orm";
 import { unstable_noStore } from "next/cache";
+import { headers } from "next/headers";
+import { getUserIdFromHeader } from "../lib/helpers";
 
 // TYPES
 export type Place = typeof places.$inferSelect;
 export type NewPlace = typeof places.$inferInsert;
 export type UpdatePlace = { id: number, name: string, description: string, emoji: string, category: string, map_id: number };
-export type NewPlaceWithoutFormData = Omit<NewPlace, 'name' | 'description' | 'category'>;
+export type NewPlaceWithoutFormData = Omit<NewPlace, 'name' | 'description' | 'category' | 'user_id'>;
 export type UpdatePlaceWithoutFormData = Omit<UpdatePlace, 'name' | 'description' | 'category'>;
 export type PlaceDetails = { name: string, description: string, emoji: string, category: string };
 
 // INSERT PLACE
 export async function insertPlace(newPlace: NewPlace): Promise<number> {
+
+    const headersList = headers();
+    const user_id = getUserIdFromHeader(headersList);
+
     try {
-        const place = await db.insert(places).values(newPlace).returning();
+        const place: Place[] = await db.insert(places).values({ ...newPlace, user_id }).returning();
         return place[0].id;
     } catch (error) {
         console.log('Database Error:', error);
@@ -25,8 +31,15 @@ export async function insertPlace(newPlace: NewPlace): Promise<number> {
 // GET ALL PLACES ON MAP
 export async function selectPlaces(map_id: number): Promise<Place[]> {
     unstable_noStore();
+
+    const headersList = headers();
+    const user_id = getUserIdFromHeader(headersList);
+
     try {
-        return await db.select().from(places).where(eq(places.map_id, map_id))
+        return await db.select().from(places).where(and(
+            eq(places.map_id, map_id),
+            eq(places.user_id, user_id)
+        ))
     } catch (error) {
         console.log('Database Error:', error);
         throw Error('Failed to get places.');
@@ -35,8 +48,14 @@ export async function selectPlaces(map_id: number): Promise<Place[]> {
 
 // GET SINGLE PLACE
 export async function selectPlace(id: number): Promise<Place> {
+
+    const headersList = headers();
+    const user_id = getUserIdFromHeader(headersList);
+
     try {
-        const result = await db.select().from(places).where(eq(places.id, id))
+        const result = await db.select().from(places).where(and(
+            eq(places.id, id),
+            eq(places.user_id, user_id)))
         return result[0];
     } catch (error) {
         console.log('Database Error:', error);
@@ -46,6 +65,10 @@ export async function selectPlace(id: number): Promise<Place> {
 
 // UPDATE PLACE
 export async function updatePlaceInDb(updates: Omit<UpdatePlace, 'map_id'>): Promise<void> {
+
+    const headersList = headers();
+    const user_id = getUserIdFromHeader(headersList);
+
     try {
         await db.update(places)
             .set({
@@ -55,7 +78,8 @@ export async function updatePlaceInDb(updates: Omit<UpdatePlace, 'map_id'>): Pro
                 category: updates.category,
                 updated_at: new Date(),
             })
-            .where(eq(places.id, updates.id));
+            .where(and(eq(places.id, updates.id),
+                eq(places.user_id, user_id)));
     } catch (error) {
         console.log('Database Error:', error);
         throw Error('Failed to update map.');
@@ -64,6 +88,10 @@ export async function updatePlaceInDb(updates: Omit<UpdatePlace, 'map_id'>): Pro
 
 // UPDATE PLACE
 export async function updatePlaceCoordinatesDb(lat: number, lng: number, id: number): Promise<void> {
+
+    const headersList = headers();
+    const user_id = getUserIdFromHeader(headersList);
+
     try {
         await db.update(places)
             .set({
@@ -71,7 +99,9 @@ export async function updatePlaceCoordinatesDb(lat: number, lng: number, id: num
                 lng: lng.toString(),
                 updated_at: new Date(),
             })
-            .where(eq(places.id, id));
+            .where(and(
+                eq(places.id, id),
+                eq(places.user_id, user_id)));
     } catch (error) {
         console.log('Database Error:', error);
         throw Error('Failed to update map.');
@@ -80,8 +110,15 @@ export async function updatePlaceCoordinatesDb(lat: number, lng: number, id: num
 
 // DELETE PLACE
 export async function deletePlaceFromDB(id: number): Promise<void> {
+
+    const headersList = headers();
+    const user_id = getUserIdFromHeader(headersList);
+
     try {
-        await db.delete(places).where(eq(places.id, id));
+        await db.delete(places).where(and(
+            eq(places.id, id),
+            eq(places.user_id, user_id)
+        ));
     } catch (error) {
         console.log('Database Error:', error);
         throw Error('Failed to delete map.');

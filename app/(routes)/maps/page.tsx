@@ -10,7 +10,7 @@ export default async function Page({ searchParams }: { searchParams: { sort: str
     const order = searchParams.order ? searchParams.order : 'desc';
 
     return (
-        <div className="flex flex-col items-center w-full gap-3 my-8">
+        <div className="flex flex-col items-center w-full gap-6">
             <Suspense fallback={<MapoverViewHeadingSkeleton />}>
                 <MapOverviewHeading />
             </Suspense>

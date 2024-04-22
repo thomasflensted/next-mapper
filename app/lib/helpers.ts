@@ -3,6 +3,8 @@ import { Map } from "../data/maps"
 import { RefObject } from "react";
 import { MapRef } from "react-map-gl";
 import { ExamplePlace } from "../ui/frontpage/exampleData";
+import { redirect } from "next/navigation";
+import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 
 export const isValidPlaceID = (id: string | null, placeArray: Place[]) => {
     if (!id) return false;
@@ -82,4 +84,10 @@ export function flyToMarker(places: Place[] | ExamplePlace[], place_id: number, 
         mapRef.current?.flyTo(
             { center: [+thisPlace.lng, +thisPlace.lat], zoom: 10, speed: 2.5 })
 
+}
+
+export function getUserIdFromHeader(headers: ReadonlyHeaders) {
+    const user_id = headers.get('user')
+    if (!user_id) return redirect('/');
+    return user_id;
 }

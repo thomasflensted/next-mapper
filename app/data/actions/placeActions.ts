@@ -1,10 +1,10 @@
 'use server'
 
-import { UpdateCoordsFormSchema, UpdatePlaceFormSchema } from "../validation/validationForms";
-import { insertPlace, updatePlaceInDb, deletePlaceFromDB, UpdatePlace, updatePlaceCoordinatesDb, NewPlaceWithoutFormData, UpdatePlaceWithoutFormData } from "../places";
+import { insertPlace, updatePlaceInDb, deletePlaceFromDB, updatePlaceCoordinatesDb, NewPlaceWithoutFormData, UpdatePlaceWithoutFormData } from "../places";
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
 import { validateCoords, validateCreatePlaceArgs, validateUpdatePlaceArgs } from "../validation/validatePlaceData";
+
 
 export type State = {
     errors?: {
@@ -15,7 +15,6 @@ export type State = {
 };
 
 export async function createPlace(placeProps: NewPlaceWithoutFormData, viewState: string, prevState: State, formData: FormData) {
-
 
     const res = validateCreatePlaceArgs(placeProps.emoji, placeProps.lat, placeProps.lng, placeProps.map_id, formData);
     if (!res.newPlace) return res;
