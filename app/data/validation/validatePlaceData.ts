@@ -20,7 +20,7 @@ export function validateCreatePlaceArgs(emoji: string, lat: string, lng: string,
         };
     }
 
-    const newPlace: NewPlace = {
+    const newPlace: Omit<NewPlace, 'user_id'> = {
         name: validatedFields.data.name,
         description: validatedFields.data.description,
         category: validatedFields.data.category,
