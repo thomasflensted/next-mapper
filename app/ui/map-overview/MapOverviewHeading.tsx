@@ -1,6 +1,5 @@
 import { selectMapCount } from "@/app/data/maps";
 import { auth } from "@/auth";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export async function MapOverviewHeading() {
