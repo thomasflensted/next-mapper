@@ -1,9 +1,10 @@
 'use server'
 
-import { CreatePlaceFormSchema, UpdateCoordsFormSchema, UpdatePlaceFormSchema } from "./validationForms";
-import { insertPlace, updatePlaceInDb, deletePlaceFromDB, NewPlace, UpdatePlace, updatePlaceCoordinatesDb, NewPlaceWithoutFormData, UpdatePlaceWithoutFormData } from "../places";
+import { UpdateCoordsFormSchema, UpdatePlaceFormSchema } from "../validation/validationForms";
+import { insertPlace, updatePlaceInDb, deletePlaceFromDB, UpdatePlace, updatePlaceCoordinatesDb, NewPlaceWithoutFormData, UpdatePlaceWithoutFormData } from "../places";
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
+import { validateCoords, validateCreatePlaceArgs, validateUpdatePlaceArgs } from "../validation/validatePlaceData";
 
 export type State = {
     errors?: {
@@ -15,113 +16,57 @@ export type State = {
 
 export async function createPlace(placeProps: NewPlaceWithoutFormData, viewState: string, prevState: State, formData: FormData) {
 
-    const validatedFields = CreatePlaceFormSchema.safeParse({
-        name: formData.get('name'),
-        description: formData.get('description'),
-        validated_emoji: placeProps.emoji,
-        category: formData.get('category'),
-        validated_lat: placeProps.lat,
-        validated_lng: placeProps.lng,
-        validated_map_id: placeProps.map_id
-    })
 
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Something went wrong.',
-        };
-    }
-
-    const newPlace: NewPlace = {
-        name: validatedFields.data.name,
-        description: validatedFields.data.name,
-        category: validatedFields.data.category,
-        emoji: validatedFields.data.validated_emoji,
-        lat: validatedFields.data.validated_lat.toString(),
-        lng: validatedFields.data.validated_lng.toString(),
-        map_id: validatedFields.data.validated_map_id,
-    }
+    const res = validateCreatePlaceArgs(placeProps.emoji, placeProps.lat, placeProps.lng, placeProps.map_id, formData);
+    if (!res.newPlace) return res;
 
     let place_id;
     try {
-        place_id = await insertPlace(newPlace);
+        place_id = await insertPlace(res.newPlace);
     } catch (error) {
         console.log(error);
-        return { message: "Database error: Failed to create place." }
+        return { message: "Database error: Failed to create place.", ...res }
     }
+
     revalidatePath(`/maps/${placeProps.map_id}`);
     redirect(`/maps/${placeProps.map_id}?viewstate=${viewState}&place=${place_id}`);
 }
 
 export async function updatePlace(placeProps: UpdatePlaceWithoutFormData, viewstate: string, prevState: State, formData: FormData) {
 
-    const validatedFields = UpdatePlaceFormSchema.safeParse({
-        validated_id: placeProps.id,
-        name: formData.get('name'),
-        description: formData.get('description'),
-        validated_emoji: placeProps.emoji,
-        category: formData.get('category'),
-        validated_map_id: placeProps.map_id,
-    })
-
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Something went wrong.',
-        };
-    }
-
-    const updates: Omit<UpdatePlace, 'map_id'> = {
-        id: validatedFields.data.validated_id,
-        name: validatedFields.data.name,
-        description: validatedFields.data.description,
-        emoji: validatedFields.data.validated_emoji,
-        category: validatedFields.data.category,
-    }
+    const res = validateUpdatePlaceArgs(placeProps.id, placeProps.emoji, placeProps.map_id, formData)
+    if (!res.updates) return res;
 
     try {
-        await updatePlaceInDb(updates)
+        await updatePlaceInDb(res.updates)
     } catch (error) {
         console.log(error);
-        return { message: "Database error: Failed to update place." }
+        return { message: "Database error: Failed to update place.", ...res }
     }
 
-    revalidatePath(`/maps/${validatedFields.data.validated_map_id}`);
-    redirect(`/maps/${validatedFields.data.validated_map_id}?viewstate=${viewstate}&place=${validatedFields.data.validated_id}`);
+    revalidatePath(`/maps/${placeProps.map_id}`);
+    redirect(`/maps/${placeProps.map_id}?viewstate=${viewstate}&place=${res.updates.id}`);
 }
 
-export async function updatePlaceCoordinates(lat: number, lng: number, id: number, map_id: number, viewstate: string) {
+export async function updatePlaceCoordinates(lat: number, lng: number, id: number, map_id: number, sp: URLSearchParams) {
 
-    const validatedFields = UpdateCoordsFormSchema.safeParse({
-        validated_id: id,
-        validated_lat: lat,
-        validated_lng: lng,
-        validated_map_id: map_id
-    })
-
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Something went wrong.',
-        };
-    }
-
-    const { validated_lat, validated_lng, validated_id, validated_map_id } = validatedFields.data;
+    const res = validateCoords(id, lat, lng, map_id);
+    if (!res.validatedData) return res;
 
     try {
-        await updatePlaceCoordinatesDb(validated_lat, validated_lng, validated_id)
+        await updatePlaceCoordinatesDb(res.validatedData.lat, res.validatedData.lng, res.validatedData.id)
     } catch (error) {
         console.log(error);
-        return { message: "Database error: Failed to update place coordinates." }
+        return { message: "Database error: Failed to update place coordinates.", ...res }
     }
-    revalidatePath(`/maps/${validated_map_id}`);
-    redirect(`/maps/${validated_map_id}?viewstate=${viewstate}&place=${validated_id}`);
+    revalidatePath(`/maps/${map_id}`);
+    redirect(`/maps/${map_id}?${sp.toString()}`);
 }
 
 export async function deletePlace(place_id: number, map_id: number, searchParams: URLSearchParams) {
 
     try {
-        deletePlaceFromDB(place_id);
+        await deletePlaceFromDB(place_id);
     } catch (error) {
         console.log(error);
         return { message: "Database error: Failed to update place coordinates." }

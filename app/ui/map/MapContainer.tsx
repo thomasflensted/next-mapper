@@ -1,11 +1,7 @@
 import MapComponent from './MapComponent';
 import { Place, selectPlaces } from '@/app/data/places';
 
-type MapContainerProps = {
-    map_id: string
-}
-
-export async function MapContainer({ map_id }: MapContainerProps) {
+export async function MapContainer({ map_id }: { map_id: string }) {
 
     const places: Place[] = await selectPlaces(+map_id)
 

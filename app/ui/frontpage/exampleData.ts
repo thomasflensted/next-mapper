@@ -1,17 +1,22 @@
-import { Place } from "@/app/lib/definitions"
-import { Map } from "@/app/lib/definitions"
+export type ExamplePlace = {
+    id: number,
+    emoji: string,
+    name: string,
+    category: string,
+    description: string,
+    lng: number,
+    lat: number
+}
 
-type PartialPlace = Omit<Place, 'have_been' | 'map_id' | 'created_at' | 'updated_at'>;
-
-export const examplePlaces: PartialPlace[] = [
+export const examplePlaces: ExamplePlace[] = [
     {
         id: 1,
         emoji: '🥗',
         name: 'Via Carota',
         category: 'restaurant',
         description: "Their insalate verde 🤤 To die for! Been too many times to count.",
-        lat: -74,
-        lng: 40,
+        lng: -74,
+        lat: 40,
     },
     {
         id: 2,
@@ -19,16 +24,17 @@ export const examplePlaces: PartialPlace[] = [
         name: 'Banff National Park',
         category: 'nature',
         description: "Was here with mom and dad back in 2014. Still thinking of the beauty. Gotta go back some day!",
-        lat: -116,
-        lng: 51,
+        lng: -116,
+        lat: 51,
     },
     {
         id: 3,
         emoji: '❤️',
-        name: 'Where I met Mateo ❤️',
+        name: 'Where I met Mateo',
         category: 'memory',
         description: "Where I met Mateo for the first time when some of his friends and some of mine struck up a conversation on a lovely summer night. Want to go back with him.",
-        lat: -75, lng: 6,
+        lng: -75,
+        lat: 6,
     },
     {
         id: 4,
@@ -36,8 +42,8 @@ export const examplePlaces: PartialPlace[] = [
         name: 'Best breakfast ever!',
         category: 'restaurant',
         description: "Such a good breakfast! Anne and I were here on our long trip in 2023. Loved the zucchini hash brown. Wanna go back. Place is called benedict Café.",
-        lat: 76.94376,
-        lng: 43.26001,
+        lng: 76.94376,
+        lat: 43.26001,
     },
     {
         id: 5,
@@ -45,17 +51,17 @@ export const examplePlaces: PartialPlace[] = [
         name: 'Spirited Away in real life',
         category: 'sight',
         description: "Place with a lot of restaurants and a tower in middle from where you can overlook Osaka in its entirety. The place feels like walking around the fantasy world in Spirited Away.",
-        lat: 135.50632,
-        lng: 34.65255,
+        lng: 135.50632,
+        lat: 34.65255,
     },
     {
         id: 6,
         emoji: '🫘',
-        name: 'Authentic coffee ☕️',
+        name: 'Authentic coffee',
         category: 'cafe',
         description: "Real ethiopian coffee. Busy and feels very real. Get a macchiato like the locals!",
-        lat: 38.75077,
-        lng: 9.03084,
+        lng: 38.75077,
+        lat: 9.03084,
     },
     {
         id: 7,
@@ -63,17 +69,17 @@ export const examplePlaces: PartialPlace[] = [
         name: 'Chiltern Firehouse',
         category: 'accommodation',
         description: "Probably the best hotel I've stayed at. Expensive, but worth it. Gotta splurge once in a while, right?",
-        lat: -0.15499,
-        lng: 51.51863,
+        lng: -0.15499,
+        lat: 51.51863,
     },
     {
         id: 8,
-        emoji: '🖼️',
+        emoji: '🎨',
         name: 'Best Art Museum?',
         category: 'museum',
         description: "Visited with mom and dad back in 2012. Remember it as the first time art really 'clicked' for me. Gotta go back to explore again.",
-        lat: 151.21735,
-        lng: -33.86887,
+        lng: 151.21735,
+        lat: -33.86887,
     },
     {
         id: 9,
@@ -81,41 +87,40 @@ export const examplePlaces: PartialPlace[] = [
         name: 'Skeleton Coast',
         category: 'nature',
         description: "Wild place. Still thinking of that time we explored this national park in 70-series Landcruiser. What a dream.",
-        lat: 12.79347,
-        lng: -19.26697,
+        lng: 12.79347,
+        lat: -19.26697,
     },
     {
-        id: 0,
+        id: 10,
         emoji: '🇮🇷',
         name: 'Magical city',
         category: 'sight',
         description: "Saw some videos of this city on Instagram. Looked like Prince of Persia in real life. Really want to go one day.",
-        lat: 54.35674,
-        lng: 31.89087,
+        lng: 54.35674,
+        lat: 31.89087,
     },
     {
-        id: 1,
+        id: 11,
         emoji: '🕌',
         name: 'Timbuktu!',
         category: 'memory',
         description: "Feel lucky to have visited this place. Felt like going back in time.",
-        lat: -3.00803,
-        lng: 16.77432,
+        lng: -3.00803,
+        lat: 16.77432,
     },
     {
-        id: 2,
+        id: 12,
         emoji: '☕️',
         name: 'Great Coffee',
         category: 'cafe',
         description: "Peter recommended this place after he'd been to Buenos Aires. Should be great.",
-        lat: -58.45583,
-        lng: -34.55460,
+        lng: -58.45583,
+        lat: -34.55460,
     },
 ]
 
-type PartialMap = Omit<Map, 'user_id' | 'created_at' | 'updated_at'>;
-
-export const exampleMaps: PartialMap[] = [
+export type ExampleMap = { id: number, name: string, description: string, emoji: string };
+export const exampleMaps: ExampleMap[] = [
     { id: 1, name: "Best CPH Restaurants", description: 'Best culinary experiences I had in Copenhagen.', emoji: '🍽️' },
     { id: 2, name: "Amazing Nature", description: "Seen in real life or online.", emoji: '🌲' },
     { id: 3, name: "Cofee Shops", description: 'Cute coffee shops I stumbled upon.', emoji: '☕' },

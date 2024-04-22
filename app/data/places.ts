@@ -1,4 +1,4 @@
-import { places } from "../db/schema";
+import { places } from "../db/schemas/placeSchema";
 import { db } from "../db/db";
 import { eq, count } from "drizzle-orm";
 import { unstable_noStore } from "next/cache";

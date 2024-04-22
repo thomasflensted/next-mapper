@@ -15,8 +15,7 @@ import MapList from '../map-controllers/MapList';
 import Markers from '../map-components/Markers';
 
 // react map gl
-import Map, { MapRef, FullscreenControl } from 'react-map-gl';
-import { GeolocateControl } from "react-map-gl";
+import Map, { MapRef, FullscreenControl, GeolocateControl } from 'react-map-gl';
 import GeoCoder from '../map-controllers/GeoCoder';
 
 // types
@@ -81,7 +80,6 @@ const MapComponent = ({ places }: { places: Place[] }) => {
             {showPopup && !place_id && <PopUpWithAddNew lat={clickCoords.lat} lng={clickCoords.lng} />}
             {place_id && <PopUpWithInfo place={places.find(place => place.id === parseInt(place_id))!} />}
             {searchParams.get('view') === 'list' && <MapList places={places} currentPlace={place_id} mapRef={mapRef} />}
-
 
         </Map>
     )

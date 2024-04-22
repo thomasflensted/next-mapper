@@ -1,16 +1,31 @@
-import Link from "next/link"
-import { Cross2Icon } from "@radix-ui/react-icons"
-import SignInForm from "../../ui/forms/user/SignInForm"
+import SignInProvider from "@/app/ui/forms/user/SignInProvider.tsx"
+import { signIn } from "@/auth"
 
 const Page = () => {
     return (
-        <div className="flex flex-col w-1/4 p-8 border mx-auto rounded-lg h-min shadow-lg relative">
-            <h2 className="text-lg font-bold text-blue-600 mb-3">Sign In</h2>
-            <Link href='/'>
-                <Cross2Icon className="absolute top-4 right-4 text-gray-500" />
-            </Link>
-            <SignInForm />
-            <Link href='/signup' className="text-xs underline mt-3">New User? Sign Up Here.</Link>
+        <div className="relative flex flex-col items-center justify-center px-8 py-6 mx-auto border rounded-lg shadow-lg h-min w-min">
+            <h2 className="mb-4 text-xl font-medium text-blue-600 whitespace-nowrap">Choose a provider sign in with</h2>
+            <hr className="w-full" />
+            <div className="flex flex-col w-full gap-2 mt-4">
+                <SignInProvider provider="google"
+                    signIn={async () => {
+                        'use server'
+                        await signIn("google", { redirectTo: '/maps' })
+                    }}>
+                </SignInProvider>
+                <SignInProvider provider="twitter"
+                    signIn={async () => {
+                        'use server'
+                        await signIn("twitter", { redirectTo: '/maps' })
+                    }}>
+                </SignInProvider>
+                <SignInProvider provider="github"
+                    signIn={async () => {
+                        'use server'
+                        await signIn("github", { redirectTo: '/maps' })
+                    }}>
+                </SignInProvider>
+            </div>
         </div>
     )
 }

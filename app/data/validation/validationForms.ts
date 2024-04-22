@@ -7,7 +7,7 @@ export const MapFormSchema = z.object({
     name: z.string({ required_error: "Name is required" }).min(1, { message: "Name must be filled out." }),
     description: z.string({ invalid_type_error: "Description is of invalid type" }),
     validated_emoji: z.string({ invalid_type_error: "Emoji is of invalid type." }).emoji({ message: "Emoji is invalid." }),
-    validated_user_id: z.number({ invalid_type_error: 'User id must be of type number.', required_error: 'User id is required.' }),
+    validated_user_id: z.string({ invalid_type_error: 'User id must be of type number.', required_error: 'User id is required.' }),
 })
 
 export const CreateMapFormSchema = MapFormSchema.omit({ id: true, created_at: true, updated_at: true })

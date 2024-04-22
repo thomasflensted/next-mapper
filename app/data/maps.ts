@@ -1,4 +1,4 @@
-import { maps } from "../db/schema";
+import { maps } from "../db/schemas/mapSchema";
 import { db } from "../db/db";
 import { eq, count } from "drizzle-orm";
 
@@ -19,7 +19,7 @@ export async function insertMap(newMap: NewMap): Promise<void> {
 }
 
 // GET ALL MAPS BELONGING TO USER
-export async function selectUserMaps(user_id: number): Promise<Map[]> {
+export async function selectUserMaps(user_id: string): Promise<Map[]> {
     try {
         return await db.select().from(maps).where(eq(maps.user_id, user_id))
     } catch (error) {
@@ -72,7 +72,7 @@ export async function deleteMapFromDB(id: number): Promise<void> {
 }
 
 // GET NUMBER OF MAPS
-export async function selectMapCount(user_id: number): Promise<number> {
+export async function selectMapCount(user_id: string): Promise<number> {
     try {
         const res = await db.select({ count: count() }).from(maps).where(eq(maps.user_id, user_id));
         return res[0].count;

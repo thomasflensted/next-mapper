@@ -2,32 +2,22 @@ import Link from "next/link";
 import MapCard from "./MapCard";
 import CreateNewMapCard from "./CreateNewMapCard";
 import { Map, selectUserMaps } from "@/app/data/maps";
+import { sortMaps } from "@/app/lib/helpers";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export async function MapGrid({ sort, order }: { sort: string, order: string }) {
 
-    const maps: Map[] = await selectUserMaps(1);
+    const session = await auth();
+    if (!session) redirect('/')
 
-    // function sortByDate(a: Map, b: Map) {
-    //     var dateA = new Date(a[sort as keyof Map]).getTime();
-    //     var dateB = new Date(b[sort as keyof Map]).getTime();
-    //     return order === 'desc'
-    //         ? dateA > dateB ? -1 : 1
-    //         : dateA > dateB ? 1 : -1
-    // }
-
-    // if (sort === 'name') {
-    //     if (order === 'desc') maps.sort((a, b) => a['name'].localeCompare(b['name']));
-    //     else maps.sort((a, b) => b['name'].localeCompare(a['name']));
-    // } else {
-    //     maps.sort(sortByDate);
-    // }
+    const maps: Map[] = await selectUserMaps(session?.user.id);
+    const sortedMaps: Map[] = sortMaps(sort, order, maps);
 
     return (
         <div className="grid grid-cols-4 gap-6 mt-4">
-            {maps.map(map => <MapCard key={map.id} title={map.name} desc={map.description || ""} emoji={map.emoji} id={map.id} />)}
-            <Link href="/maps/create">
-                <CreateNewMapCard />
-            </Link>
+            {sortedMaps.map(map => <MapCard key={map.id} title={map.name} desc={map.description || ""} emoji={map.emoji} id={map.id} />)}
+            <Link href="/maps/create"><CreateNewMapCard /></Link>
         </div>
     )
 }

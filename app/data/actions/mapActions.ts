@@ -2,13 +2,15 @@
 
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
-import { CreateMapFormSchema, UpdateMapFormSchema } from "./validationForms"
-import { deleteMapFromDB, insertMap, updateMapInDb, NewMap, UpdateMap } from "../maps";
+import { deleteMapFromDB, insertMap, updateMapInDb } from "../maps";
+import { validateCreateMapArgs, validateUpdateMapArgs } from "../validation/validateMapData";
 
 export type State = {
     errors?: {
-        name?: string[];
-        validatedEmoji?: string[];
+        description?: string[],
+        name?: string[],
+        validatedEmoji?: string[],
+        validated_user_id?: string[],
     };
     message?: string | null;
 };
@@ -18,40 +20,23 @@ export async function deleteMap(id: number) {
     try {
         await deleteMapFromDB(id);
     } catch (error) {
+        console.log(error);
         return { message: "Database error: Failed to delete map." }
     }
     revalidatePath('/maps/')
     redirect('/maps/')
 }
 
-export async function createMap(user_id: number, emoji: string, prevState: State, formData: FormData) {
+export async function createMap(user_id: string, emoji: string, prevState: State, formData: FormData) {
 
-    const validatedFields = CreateMapFormSchema.safeParse({
-        name: formData.get('name'),
-        description: formData.get('description'),
-        validated_emoji: emoji,
-        validated_user_id: user_id
-    })
-
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Something went wrong.',
-        };
-    }
-
-    const newMap: NewMap = {
-        name: validatedFields.data.name,
-        description: validatedFields.data.description,
-        emoji: validatedFields.data.validated_emoji,
-        user_id: validatedFields.data.validated_user_id
-    };
+    const res = validateCreateMapArgs(user_id, emoji, formData);
+    if (!res.newMap) return res;
 
     try {
-        await insertMap(newMap)
+        await insertMap(res.newMap)
     } catch (error) {
         console.log(error);
-        return { message: "Database error: Failed to create map." }
+        return { message: 'Database error: Failed to upate map.', ...res };
     }
 
     revalidatePath('/maps/')
@@ -60,30 +45,13 @@ export async function createMap(user_id: number, emoji: string, prevState: State
 
 export async function updateMap(map_id: number, emoji: string, sp: string, prevState: State, formData: FormData) {
 
-    const validatedFields = UpdateMapFormSchema.safeParse({
-        id: map_id,
-        name: formData.get('name'),
-        description: formData.get('description'),
-        validated_emoji: emoji
-    })
-
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Something went wrong.',
-        };
-    }
-
-    const updates: UpdateMap = {
-        name: validatedFields.data.name,
-        description: validatedFields.data.description,
-        emoji: validatedFields.data.validated_emoji
-    };
+    const res = validateUpdateMapArgs(map_id, emoji, formData);
+    if (!res.updates) return res;
 
     try {
-        await updateMapInDb(updates, map_id);
+        await updateMapInDb(res.updates, map_id);
     } catch (error) {
-        return { message: "Database error: Failed to upate map." }
+        return { message: "Database error: Failed to upate map.", ...res }
     }
 
     revalidatePath('/maps/')

@@ -1,22 +1,32 @@
-import NextAuth from "next-auth"
-import GitHub from "next-auth/providers/github"
-import vercelPostgresAdapter from "./app/lib/postgresAdapter";
+import NextAuth, { NextAuthConfig } from "next-auth"
+import GitHubProvider from "next-auth/providers/github"
+import TwitterProvider from "next-auth/providers/twitter";
+import GoogleProvider from "next-auth/providers/google";
+import { db } from "./app/db/db"
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
 
-export const { handlers, auth } = NextAuth({
-    debug: true,
-    secret: process.env.AUTH_SECRET,
-    adapter: vercelPostgresAdapter(),
+export const authConfig = {
+    adapter: DrizzleAdapter(db),
     providers: [
-        GitHub({
-            clientId: process.env.AUTH_GITHUB_ID as string,
-            clientSecret: process.env.AUTH_GITHUB_SECRET as string,
-            authorization: {
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code",
-                },
-            },
+        GitHubProvider({
+            clientId: process.env.GITHUB_AUTH_CLIENT_ID,
+            clientSecret: process.env.GITHUB_AUTH_CLIENT_ID
+        }),
+        TwitterProvider({
+            clientId: process.env.TWITTER_AUTH_CLIENT_ID,
+            clientSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_AUTH_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
         }),
     ],
-})
+    // callbacks: {
+    //     async session({ session, user }) {
+    //         session.user.id = user.id;
+    //         return session;
+    //     }
+    // }
+} satisfies NextAuthConfig
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)

@@ -1,6 +1,8 @@
 import { Place } from "../data/places";
+import { Map } from "../data/maps"
 import { RefObject } from "react";
 import { MapRef } from "react-map-gl";
+import { ExamplePlace } from "../ui/frontpage/exampleData";
 
 export const isValidPlaceID = (id: string | null, placeArray: Place[]) => {
     if (!id) return false;
@@ -26,9 +28,36 @@ export const sortPlaces = (sort: string, order: string, places: Place[]) => {
     return places.sort(sortPlacesByDate)
 }
 
-export const scrollElementIntoView = (currentPlace: string | null) => {
+export const sortMaps = (sort: string, order: string, maps: Map[]) => {
+
+    function sortByCreated(a: Map, b: Map) {
+        var dateA = new Date(a.created_at).getTime();
+        var dateB = new Date(b.created_at).getTime();
+        return order === 'desc'
+            ? dateA > dateB ? -1 : 1
+            : dateA > dateB ? 1 : -1
+    }
+
+    function sortByUpdated(a: Map, b: Map) {
+        var dateA = new Date(a.updated_at).getTime();
+        var dateB = new Date(b.updated_at).getTime();
+        return order === 'desc'
+            ? dateA > dateB ? -1 : 1
+            : dateA > dateB ? 1 : -1
+    }
+
+    if (sort === 'created_at') return maps.sort(sortByCreated);
+    if (sort === 'updated_at') return maps.sort(sortByUpdated);
+
+    return order === 'desc'
+        ? maps.sort((a, b) => a.name.localeCompare(b.name))
+        : maps.sort((a, b) => b.name.localeCompare(a.name));
+
+}
+
+export const scrollElementIntoView = (currentPlace: number | string | null) => {
     if (!currentPlace) return;
-    const child = document.getElementById(currentPlace);
+    const child = document.getElementById(currentPlace.toString());
     const parent = child?.parentElement;
     if (!child || !parent) return;
     const parentBounds = parent.getBoundingClientRect();
@@ -41,16 +70,16 @@ export const scrollElementIntoView = (currentPlace: string | null) => {
     }
 }
 
-export function flyToMarker(places: Place[], place_id: number, mapRef: RefObject<MapRef> | undefined) {
+export function flyToMarker(places: Place[] | ExamplePlace[], place_id: number, mapRef: RefObject<MapRef> | undefined) {
 
     const thisPlace = places.find(place => place.id === place_id);
     if (!thisPlace || !mapRef) return;
 
-    const mapContainsMarker = mapRef.current?.getBounds().contains({ lat: thisPlace?.lat, lng: thisPlace?.lng });
+    const mapContainsMarker = mapRef.current?.getBounds().contains({ lat: +thisPlace?.lat, lng: +thisPlace?.lng });
     const currentZoomLevel = mapRef.current?.getZoom() || 1.5;
 
     if (currentZoomLevel < 10 || !mapContainsMarker)
         mapRef.current?.flyTo(
-            { center: [thisPlace.lng, thisPlace.lat], zoom: 10, speed: 2.5 })
+            { center: [+thisPlace.lng, +thisPlace.lat], zoom: 10, speed: 2.5 })
 
 }

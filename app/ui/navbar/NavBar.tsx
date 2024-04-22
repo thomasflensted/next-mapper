@@ -1,8 +1,11 @@
 import Link from "next/link"
+import { auth, signOut } from "@/auth"
+import SignOutButton from "./SignOutButton";
 
 export default async function NavBar() {
 
-    const user = true;
+    const session = await auth();
+    const user = session?.user;
 
     return (
         <nav className="p-3">
@@ -12,15 +15,16 @@ export default async function NavBar() {
                 </Link>
                 <li>
                     {!user &&
-                        <button className="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600">
-                            Sign Up
-                        </button>
+                        <Link href='/signin'>
+                            <button className="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600">
+                                Sign In
+                            </button>
+                        </Link>
                     }
-                    {user &&
-                        <button className="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600">
-                            Sign Out
-                        </button>
-                    }
+                    {user && <SignOutButton signOut={async () => {
+                        "use server"
+                        await signOut({ redirectTo: '/' })
+                    }} />}
                 </li>
             </ul>
         </nav>

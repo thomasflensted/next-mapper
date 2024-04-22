@@ -8,7 +8,7 @@ import NameInput from "../form-components/NameInput";
 import DescriptionInput from "../form-components/DescriptionInput";
 import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
 
-const CreateMapForm = () => {
+const CreateMapForm = ({ user_id }: { user_id: string }) => {
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emoji, setEmoji] = useState('🗺️');
@@ -19,7 +19,7 @@ const CreateMapForm = () => {
         setShowEmojiPicker(false);
     }
 
-    const createMapWithUserIdAndEmoji = createMap.bind(null, 1, emoji);
+    const createMapWithUserIdAndEmoji = createMap.bind(null, user_id, emoji);
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createMapWithUserIdAndEmoji, initialState);
 
