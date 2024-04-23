@@ -30,7 +30,6 @@ export async function insertPlace(newPlace: Omit<NewPlace, 'user_id'>): Promise<
 
 // GET ALL PLACES ON MAP
 export async function selectPlaces(map_id: number): Promise<Place[]> {
-    unstable_noStore();
 
     const headersList = headers();
     const user_id = getUserIdFromHeader(headersList);
