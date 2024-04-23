@@ -58,8 +58,13 @@ export async function updatePlaceCoordinates(lat: number, lng: number, id: numbe
         console.log(error);
         return { message: "Database error: Failed to update place coordinates.", ...res }
     }
+
+    const returnURL = new URLSearchParams(sp);
+    returnURL.delete('lat');
+    returnURL.delete('lng');
+
     revalidatePath(`/maps/${map_id}`);
-    redirect(`/maps/${map_id}?${sp.toString()}`);
+    redirect(`/maps/${map_id}?${returnURL.toString()}`);
 }
 
 export async function deletePlace(place_id: number, map_id: number, searchParams: URLSearchParams) {

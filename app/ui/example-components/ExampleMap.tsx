@@ -9,7 +9,6 @@ import PopUpWithInfoExample from './PopUpWithInfoExample';
 import GeoCoder from '../map-controllers/GeoCoder';
 import ExamplePlaceList from './ExamplePlaceList';
 import { flyToMarker, scrollElementIntoView } from '@/app/lib/helpers';
-import ControllerRow from '../map-controllers/ControllerRow';
 
 const ExampleMap = () => {
 

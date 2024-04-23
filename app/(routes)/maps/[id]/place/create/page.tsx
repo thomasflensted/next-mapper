@@ -10,7 +10,7 @@ export default async function Page({ params, searchParams }: { params: { id: str
     if (!session || !session.user) redirect('/');
 
     return (
-        <div className="relative flex flex-col w-2/5 p-8 mx-auto border rounded-lg shadow-lg h-min">
+        <div className="relative flex flex-col w-11/12 p-8 mx-auto mt-8 border rounded-lg shadow-lg md:w-2/4 lg:w-2/6 md:mt-0">
             <h2 className="mb-3 text-lg font-bold text-blue-600">Create New Place</h2>
             <Link href={'/maps/' + params.id + '?viewstate=' + searchParams.viewstate}>
                 <Cross2Icon className="absolute text-gray-500 top-4 right-4" />

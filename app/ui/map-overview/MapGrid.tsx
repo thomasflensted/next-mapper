@@ -15,7 +15,7 @@ export async function MapGrid({ sort, order }: { sort: string, order: string }) 
     const sortedMaps: Map[] = sortMaps(sort, order, maps);
 
     return (
-        <div className="grid grid-cols-4 gap-6 mt-4">
+        <div className="grid grid-cols-2 gap-3 mt-4 md:gap-6 md:grid-cols-4">
             {sortedMaps.map(map => <MapCard key={map.id} title={map.name} desc={map.description || ""} emoji={map.emoji} id={map.id} />)}
             <Link href="/maps/create"><CreateNewMapCard /></Link>
         </div>
