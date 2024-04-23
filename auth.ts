@@ -1,5 +1,5 @@
 import NextAuth, { NextAuthConfig } from "next-auth"
-import GitHubProvider from "next-auth/providers/github"
+import GitHub from "next-auth/providers/github"
 import TwitterProvider from "next-auth/providers/twitter";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "./app/db/db"
@@ -8,7 +8,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter"
 export const authConfig = {
     adapter: DrizzleAdapter(db),
     providers: [
-        GitHubProvider({
+        GitHub({
             clientId: process.env.GITHUB_AUTH_CLIENT_ID,
             clientSecret: process.env.GITHUB_AUTH_CLIENT_ID
         }),
