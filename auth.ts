@@ -20,13 +20,7 @@ export const authConfig = {
             clientId: process.env.GOOGLE_AUTH_CLIENT_ID,
             clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
         }),
-    ],
-    // callbacks: {
-    //     async session({ session, user }) {
-    //         session.user.id = user.id;
-    //         return session;
-    //     }
-    // }
+    ]
 } satisfies NextAuthConfig
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)

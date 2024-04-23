@@ -65,8 +65,8 @@ const MapComponent = ({ places }: { places: Place[] }) => {
             onClick={(e) => handleMapClick(e.lngLat.lat, e.lngLat.lng)}
             reuseMaps={true}
             ref={mapRef}
-            mapboxAccessToken={process.env.MAPBOX_TOKEN}
-            mapStyle={process.env.MAPBOX_STYLE}
+            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+            mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE}
             initialViewState={initialViewState}
             onDragEnd={handleDragAndZoom}
             onZoomEnd={handleDragAndZoom}
