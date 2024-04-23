@@ -10,7 +10,7 @@ export const authConfig = {
     providers: [
         GitHub({
             clientId: process.env.GITHUB_AUTH_CLIENT_ID,
-            clientSecret: process.env.GITHUB_AUTH_CLIENT_ID
+            clientSecret: process.env.GITHUB_AUTH_CLIENT_SECRET
         }),
         TwitterProvider({
             clientId: process.env.TWITTER_AUTH_CLIENT_ID,
