@@ -13,7 +13,7 @@ import { redirect } from "next/navigation"
 export default async function Home() {
 
   const user = await auth();
-  await db.delete(users).where(eq(users.id, '045e5762-11cc-4a5d-b722-5cc268776ec9'));
+  await db.delete(users).where(eq(users.id, 'b7439067-ac8e-4c63-95e0-9067f930104e'));
   if (user) redirect('/maps')
 
   return (
