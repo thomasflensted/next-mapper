@@ -10,6 +10,7 @@ const SortItem = ({ text, prop }: { text: string, prop: string }) => {
     const sp = useSearchParams();
     const currentSort = sp.has('sort') ? sp.get('sort') : 'created_at';
     const currentOrder = sp.has('order') ? sp.get('order') : 'desc';
+    console.log(sp.toString())
 
     const computeOrder = () => {
         if (currentSort !== prop) return 'desc';
@@ -20,6 +21,7 @@ const SortItem = ({ text, prop }: { text: string, prop: string }) => {
     const sortUrl = new URLSearchParams();
     sortUrl.set('order', computeOrder());
     sortUrl.set('sort', prop);
+    sortUrl.set('view', 'list');
 
     return (
         <Link href={`${p}?${sortUrl.toString()}`} replace={true} scroll={false}>
