@@ -7,11 +7,6 @@ export async function middleware(request: NextRequest) {
     const session = await auth();
     if (!session)
         return NextResponse.redirect(new URL('/', request.url))
-    else {
-        const headers = new Headers();
-        headers.set('user', session.user.id);
-        return NextResponse.next({ headers });
-    }
 }
 
 // See "Matching Paths" below to learn more

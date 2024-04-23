@@ -4,14 +4,11 @@ import { notFound } from "next/navigation";
 import { URLSearchParams } from "url";
 import { selectMapDetails, MapDetailsType } from "@/app/data/maps";
 import { selectPlaceCount } from "@/app/data/places";
-import { auth } from "@/auth";
 
 async function MapDetails({ map_id, sp }: { map_id: number, sp: URLSearchParams }) {
 
     const mapDetails: MapDetailsType = await selectMapDetails(map_id) //fetchMapDetails(map_id);
     const placeCount = await selectPlaceCount(map_id);
-    const session = await auth();
-    console.log(session?.user);
     if (!mapDetails) notFound();
 
     return (

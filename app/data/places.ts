@@ -1,9 +1,10 @@
 import { places } from "../db/schemas/placeSchema";
 import { db } from "../db/db";
 import { eq, count, and } from "drizzle-orm";
-import { unstable_noStore } from "next/cache";
 import { headers } from "next/headers";
 import { getUserIdFromHeader } from "../lib/helpers";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 // TYPES
 export type Place = typeof places.$inferSelect;
@@ -16,8 +17,9 @@ export type PlaceDetails = { name: string, description: string, emoji: string, c
 // INSERT PLACE
 export async function insertPlace(newPlace: Omit<NewPlace, 'user_id'>): Promise<number> {
 
-    const headersList = headers();
-    const user_id = getUserIdFromHeader(headersList);
+    const session = await auth()
+    if (!session || !session.user) return redirect('/')
+    const user_id = session.user.id;
 
     try {
         const place: Place[] = await db.insert(places).values({ ...newPlace, user_id }).returning();
@@ -31,8 +33,9 @@ export async function insertPlace(newPlace: Omit<NewPlace, 'user_id'>): Promise<
 // GET ALL PLACES ON MAP
 export async function selectPlaces(map_id: number): Promise<Place[]> {
 
-    const headersList = headers();
-    const user_id = getUserIdFromHeader(headersList);
+    const session = await auth()
+    if (!session || !session.user) return redirect('/')
+    const user_id = session.user.id;
 
     try {
         return await db.select().from(places).where(and(
@@ -48,8 +51,9 @@ export async function selectPlaces(map_id: number): Promise<Place[]> {
 // GET SINGLE PLACE
 export async function selectPlace(id: number): Promise<Place> {
 
-    const headersList = headers();
-    const user_id = getUserIdFromHeader(headersList);
+    const session = await auth()
+    if (!session || !session.user) return redirect('/')
+    const user_id = session.user.id;
 
     try {
         const result = await db.select().from(places).where(and(
@@ -65,8 +69,9 @@ export async function selectPlace(id: number): Promise<Place> {
 // UPDATE PLACE
 export async function updatePlaceInDb(updates: Omit<UpdatePlace, 'map_id'>): Promise<void> {
 
-    const headersList = headers();
-    const user_id = getUserIdFromHeader(headersList);
+    const session = await auth()
+    if (!session || !session.user) return redirect('/')
+    const user_id = session.user.id;
 
     try {
         await db.update(places)
@@ -88,8 +93,9 @@ export async function updatePlaceInDb(updates: Omit<UpdatePlace, 'map_id'>): Pro
 // UPDATE PLACE
 export async function updatePlaceCoordinatesDb(lat: number, lng: number, id: number): Promise<void> {
 
-    const headersList = headers();
-    const user_id = getUserIdFromHeader(headersList);
+    const session = await auth()
+    if (!session || !session.user) return redirect('/')
+    const user_id = session.user.id;
 
     try {
         await db.update(places)
@@ -110,8 +116,9 @@ export async function updatePlaceCoordinatesDb(lat: number, lng: number, id: num
 // DELETE PLACE
 export async function deletePlaceFromDB(id: number): Promise<void> {
 
-    const headersList = headers();
-    const user_id = getUserIdFromHeader(headersList);
+    const session = await auth()
+    if (!session || !session.user) return redirect('/')
+    const user_id = session.user.id;
 
     try {
         await db.delete(places).where(and(

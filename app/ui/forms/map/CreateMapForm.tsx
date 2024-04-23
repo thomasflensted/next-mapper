@@ -19,12 +19,9 @@ const CreateMapForm = ({ user_id }: { user_id: string }) => {
         setShowEmojiPicker(false);
     }
 
-    const { pending } = useFormStatus()
     const createMapWithUserIdAndEmoji = createMap.bind(null, user_id, emoji);
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createMapWithUserIdAndEmoji, initialState);
-
-    useEffect(() => { console.log(pending) }, [pending])
 
     return (
         <form className="flex flex-col gap-6" action={dispatch}>

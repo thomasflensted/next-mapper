@@ -55,7 +55,5 @@ export async function updateMap(map_id: number, emoji: string, sp: string, prevS
     }
 
     revalidatePath('/maps/')
-    revalidatePath('/maps/' + map_id)
-    revalidatePath('/maps/' + map_id + '/edit')
     redirect('/maps/' + map_id + `?${sp}`);
 }

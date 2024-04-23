@@ -42,3 +42,5 @@ createTables.sql
 seedTables.sql
 
 ignore
+
+.next
