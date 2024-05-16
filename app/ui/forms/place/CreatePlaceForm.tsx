@@ -10,6 +10,7 @@ import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
 import DescriptionInput from "../form-components/DescriptionInput";
 import NameInput from "../form-components/NameInput";
 import { NewPlaceWithoutFormData } from "@/app/data/places";
+import SubmitMapBtn from "../form-components/SubmitMapBtn";
 
 const CreatePlaceForm = () => {
 
@@ -57,7 +58,7 @@ const CreatePlaceForm = () => {
 
             <div className="flex gap-1">
                 <Link href={'/maps/' + map_id + '?viewstate=' + viewState} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
+                <SubmitMapBtn />
             </div>
 
             {state.errors?.validated_map_id && <p className="block ml-2 text-xs font-light text-red-500">Something went wrong. Please refresh the page.</p>}

@@ -1,18 +1,20 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createMap } from "@/app/data/actions/mapActions";
 import { useFormState, useFormStatus } from "react-dom";
 import NameInput from "../form-components/NameInput";
 import DescriptionInput from "../form-components/DescriptionInput";
 import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
+import SubmitMapBtn from "../form-components/SubmitMapBtn";
 
 const CreateMapForm = ({ user_id }: { user_id: string }) => {
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emoji, setEmoji] = useState('🗺️');
     const router = useRouter();
+    const { pending } = useFormStatus()
 
     const handleEmojiClick = (pickedEmoji: string) => {
         setEmoji(pickedEmoji);
@@ -40,7 +42,7 @@ const CreateMapForm = ({ user_id }: { user_id: string }) => {
 
             <div className="flex gap-1">
                 <button onClick={() => router.back()} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</button>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 disabled:bg-red-500 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
+                <SubmitMapBtn />
             </div>
 
             {state.errors?.validated_user_id && <p className="block ml-2 text-xs font-light text-red-500">Something went wrong. Please sign out and in again.</p>}

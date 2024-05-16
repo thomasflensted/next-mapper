@@ -7,6 +7,7 @@ import NameInput from "../form-components/NameInput";
 import DescriptionInput from "../form-components/DescriptionInput";
 import EmojiPickerComponent from "../form-components/EmojiPickerComponent";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
+import SubmitMapBtn from "../form-components/SubmitMapBtn";
 
 type FormProps = {
     defaultName: string,
@@ -53,7 +54,7 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji }: FormProps) => {
 
             <div className="flex gap-1">
                 <button type="reset" onClick={() => router.back()} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</button>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 rounded text-sm w-full">Save</button>
+                <SubmitMapBtn />
             </div>
 
             {state.message && <p className="block ml-2 text-xs font-light text-red-500">{state.message}</p>}
