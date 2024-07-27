@@ -1,3 +1,4 @@
+import { MagnifyingGlassIcon, PieChartIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 
 export const shimmer =
@@ -63,6 +64,41 @@ export function MapDetailsSkeleton() {
             <div className="flex justify-center gap-2">
                 <div className="flex items-center w-20 h-8 px-4 py-2 text-xs font-light text-blue-600 bg-white border rounded group hover:bg-gray-50"></div>
                 <div className="flex items-center w-20 h-8 px-4 py-2 text-xs font-light text-blue-600 bg-white border rounded group hover:bg-gray-50"></div>
+            </div>
+        </div>
+    )
+}
+
+export function MapFormSkeleton({ type }: { type: 'map' | 'place' }) {
+    return (
+        <div className="flex flex-col">
+            <h2 className="mb-3 text-lg font-bold text-blue-600">Edit {type === 'map' ? 'Map' : 'Place'} Details</h2>
+            <div className="flex flex-col gap-6">
+                <div className="flex flex-col">
+                    <label className="block font-light text-xs mb-0.5">Name</label>
+                    <div className="rounded w-full h-7 bg-gray-100 animate-pulse" />
+                </div>
+                <div className="flex flex-col">
+                    <label className="block font-light text-xs mb-0.5">Description</label>
+                    <div className="rounded w-full h-24 bg-gray-100 animate-pulse" />
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="rounded w-1/4 h-6 bg-gray-100 animate-pulse" />
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className='bg-white relative border px-2 py-1 rounded flex w-min items-center'>
+                        <p className="mr-2 text-xs font-light">Emoji</p>
+                        <MagnifyingGlassIcon className="text-xs" />
+                    </div>
+                    <p className="animate-bounce">⏳</p>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <div className="flex gap-1">
+                        <div className="rounded w-full h-10 bg-gray-100 animate-pulse" />
+                        <div className="rounded w-full h-10 bg-gray-100 animate-pulse" />
+                    </div>
+                    <div className="rounded w-full h-10 bg-gray-100 animate-pulse" />
+                </div>
             </div>
         </div>
     )
