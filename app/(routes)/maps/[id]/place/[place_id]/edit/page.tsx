@@ -20,7 +20,7 @@ export default async function Page({ params, searchParams }: { params: { place_i
     )
 }
 
-export async function PlaceFormWithDetails({ placeId, mapId, backUrl }: { placeId: number, mapId: number, backUrl: URLSearchParams }) {
+async function PlaceFormWithDetails({ placeId, mapId, backUrl }: { placeId: number, mapId: number, backUrl: URLSearchParams }) {
 
     const place: Place = await selectPlace(placeId)
     const map: MapDetailsType = await selectMapDetails(mapId);
