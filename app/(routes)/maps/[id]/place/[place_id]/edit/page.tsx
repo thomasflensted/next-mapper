@@ -11,16 +11,22 @@ import { URLSearchParams } from "url";
 
 export default async function Page({ params, searchParams }: { params: { place_id: string, id: string }, searchParams: URLSearchParams }) {
 
+    const sp = new URLSearchParams(searchParams);
+
     return (
         <div className="relative flex flex-col w-11/12 p-8 mx-auto mt-8 border rounded-lg shadow-lg md:w-2/4 lg:w-2/6 md:mt-0">
             <Suspense fallback={<MapFormSkeleton type='place' />}>
-                <PlaceFormWithDetails placeId={+params.place_id} mapId={+params.id} backUrl={searchParams} />
+                <PlaceFormWithDetails
+                    placeId={+params.place_id}
+                    mapId={+params.id}
+                    backUrl={sp.toString()}
+                />
             </Suspense>
         </div>
     )
 }
 
-async function PlaceFormWithDetails({ placeId, mapId, backUrl }: { placeId: number, mapId: number, backUrl: URLSearchParams }) {
+async function PlaceFormWithDetails({ placeId, mapId, backUrl }: { placeId: number, mapId: number, backUrl: string }) {
 
     const place: Place = await selectPlace(placeId)
     const map: MapDetailsType = await selectMapDetails(mapId);
@@ -32,7 +38,7 @@ async function PlaceFormWithDetails({ placeId, mapId, backUrl }: { placeId: numb
             <Link href={`/maps/${mapId}?${backUrl.toString()}`} scroll={false}>
                 <Cross2Icon className="absolute text-gray-500 top-4 right-4" />
             </Link>
-            <EditPlaceForm place={place} backUrl={backUrl.toString()} />
+            <EditPlaceForm place={place} backUrl={backUrl} />
             <DeletePlaceButton place={place} />
         </>
     )

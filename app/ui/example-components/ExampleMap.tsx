@@ -26,7 +26,6 @@ const ExampleMap = () => {
 
     const handleDivClick = (e: any, clickedPlace: ExamplePlace) => {
         setPlace(clickedPlace);
-        console.log(clickedPlace);
         setShowPopup(true);
         if (place) flyToMarker(examplePlaces, clickedPlace.id, mapRef)
     }

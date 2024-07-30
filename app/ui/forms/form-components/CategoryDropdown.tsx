@@ -1,6 +1,7 @@
 const CategoryDropdown = ({ defaultCategory }: { defaultCategory: string }) => {
     return (
-        <select className="px-2 py-1 text-xs font-light bg-white border rounded w-min" name="category" defaultValue={defaultCategory}>
+        <select className="px-2 py-1 text-xs font-light bg-white border rounded w-full" name="category" defaultValue={defaultCategory}>
+            <option value="" disabled>Select a category</option>
             <option value="restaurant">Restaurant</option>
             <option value="cafe">Café</option>
             <option value="museum">Museum</option>

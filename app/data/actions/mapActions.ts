@@ -20,7 +20,7 @@ export async function deleteMap(id: number) {
     try {
         await deleteMapFromDB(id);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return { message: "Database error: Failed to delete map." }
     }
     revalidatePath('/maps/')
@@ -35,7 +35,7 @@ export async function createMap(user_id: string, emoji: string, prevState: State
     try {
         await insertMap(res.newMap)
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return { message: 'Database error: Failed to upate map.', ...res };
     }
 

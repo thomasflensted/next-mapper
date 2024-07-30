@@ -11,6 +11,7 @@ import DescriptionInput from "../form-components/DescriptionInput";
 import NameInput from "../form-components/NameInput";
 import { Place, UpdatePlaceWithoutFormData } from "@/app/data/places";
 import SubmitMapBtn from "../form-components/SubmitMapBtn";
+import ImageInput from "../form-components/ImageInput";
 
 const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) => {
 
@@ -53,8 +54,12 @@ const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) =>
                 {state.errors?.validated_emoji && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_emoji[0]}</p>}
             </EmojiPickerComponent>
 
+            <ImageInput>
+                {state.errors?.validated_emoji && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_emoji[0]}</p>}
+            </ImageInput>
+
             <div className="flex gap-1">
-                <Link href={`/maps/${map_id}?${backUrl}`} scroll={false} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
+                <Link href={`/maps/${map_id}?place=${place.id}&${backUrl}`} scroll={false} className="bg-white hover:bg-gray-50 border font-medium py-1.5 rounded text-sm w-full text-center">Cancel</Link>
                 <SubmitMapBtn />
             </div>
 

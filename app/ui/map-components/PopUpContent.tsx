@@ -42,7 +42,7 @@ const PopUpContent = ({ place }: { place: Place }) => {
             <div className="w-full h-auto overflow-hidden rounded-md relative">
                 <FaChevronCircleLeft onClick={() => decrementImg(currentImage)} className="text-white text-lg absolute -translate-y-1/2 top-1/2 left-2 opacity-50 hover:opacity-85 transition" />
                 <FaChevronCircleRight onClick={() => incrementImg(currentImage)} className="text-white text-lg absolute -translate-y-1/2 top-1/2 right-2 opacity-50 hover:opacity-85 transition" />
-                <img src='/public/img_example.png' alt="" />
+                {/* <img src='/public/img_example.png' alt="" /> */}
                 {/* <Image src={imgs[currentImage]} height={200} width={400} alt="Image" /> */}
             </div>
             <div className='flex gap-1.5 mt-1'>

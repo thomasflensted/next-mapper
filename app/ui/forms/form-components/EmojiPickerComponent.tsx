@@ -13,7 +13,7 @@ type Props = {
 const EmojiPickerComponent = ({ children, emoji, showEmojiPicker, setShowEmojiPicker, handleEmojiClick }: Props) => {
     return (
         <div className="relative flex items-center">
-            <div className={`bg-white relative border px-2 py-1 rounded cursor-pointer flex w-min items-center ${showEmojiPicker ? 'border-blue-400' : ''}`} onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+            <div className={`bg-white relative justify-between border px-2 py-1 rounded cursor-pointer flex w-full items-center ${showEmojiPicker ? 'border-blue-400' : ''}`} onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
                 <p className="mr-2 text-xs font-light">Emoji</p>
                 <MagnifyingGlassIcon className="text-xs" />
             </div>
@@ -22,7 +22,7 @@ const EmojiPickerComponent = ({ children, emoji, showEmojiPicker, setShowEmojiPi
                 width={450}
                 onEmojiClick={(e) => handleEmojiClick(e.emoji)}
                 style={{ position: 'absolute' }}
-                className="border top-9 -left-1" />
+                className="border top-9 -left-1 z-10" />
             <p className="ml-2 text-2xl cursor-pointer" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>{emoji}</p>
             {children}
         </div>

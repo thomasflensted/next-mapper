@@ -23,7 +23,7 @@ export async function createPlace(placeProps: NewPlaceWithoutFormData, viewState
     try {
         place_id = await insertPlace(res.newPlace);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return { message: "Database error: Failed to create place.", ...res }
     }
 
@@ -39,7 +39,7 @@ export async function updatePlace(placeProps: UpdatePlaceWithoutFormData, viewst
     try {
         await updatePlaceInDb(res.updates)
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return { message: "Database error: Failed to update place.", ...res }
     }
 
@@ -55,7 +55,7 @@ export async function updatePlaceCoordinates(lat: number, lng: number, id: numbe
     try {
         await updatePlaceCoordinatesDb(res.validatedData.lat, res.validatedData.lng, res.validatedData.id)
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return { message: "Database error: Failed to update place coordinates.", ...res }
     }
 
@@ -72,7 +72,7 @@ export async function deletePlace(place_id: number, map_id: number, searchParams
     try {
         await deletePlaceFromDB(place_id);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return { message: "Database error: Failed to update place coordinates." }
     }
 

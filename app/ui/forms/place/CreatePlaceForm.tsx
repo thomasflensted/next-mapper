@@ -49,7 +49,7 @@ const CreatePlaceForm = () => {
                 {state.errors?.description && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.description[0]}</p>}
             </DescriptionInput>
 
-            <CategoryDropdown defaultCategory="restaurant" />
+            <CategoryDropdown defaultCategory="" />
             {state.errors?.category && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.category[0]}</p>}
 
             <EmojiPickerComponent emoji={emoji} showEmojiPicker={showEmojiPicker} setShowEmojiPicker={setShowEmojiPicker} handleEmojiClick={handleEmojiClick}>

@@ -25,7 +25,7 @@ export async function insertPlace(newPlace: Omit<NewPlace, 'user_id'>): Promise<
         const place: Place[] = await db.insert(places).values({ ...newPlace, user_id }).returning();
         return place[0].id;
     } catch (error) {
-        console.log('Database Error:', error);
+        console.error('Database Error:', error);
         throw Error('Failed to create map.');
     }
 }
@@ -43,7 +43,7 @@ export async function selectPlaces(map_id: number): Promise<Place[]> {
             eq(places.user_id, user_id)
         ))
     } catch (error) {
-        console.log('Database Error:', error);
+        console.error('Database Error:', error);
         throw Error('Failed to get places.');
     }
 }
@@ -61,7 +61,7 @@ export async function selectPlace(id: number): Promise<Place> {
             eq(places.user_id, user_id)))
         return result[0];
     } catch (error) {
-        console.log('Database Error:', error);
+        console.error('Database Error:', error);
         throw Error('Failed get map details.');
     }
 }
@@ -85,7 +85,7 @@ export async function updatePlaceInDb(updates: Omit<UpdatePlace, 'map_id'>): Pro
             .where(and(eq(places.id, updates.id),
                 eq(places.user_id, user_id)));
     } catch (error) {
-        console.log('Database Error:', error);
+        console.error('Database Error:', error);
         throw Error('Failed to update map.');
     }
 }
@@ -108,7 +108,7 @@ export async function updatePlaceCoordinatesDb(lat: number, lng: number, id: num
                 eq(places.id, id),
                 eq(places.user_id, user_id)));
     } catch (error) {
-        console.log('Database Error:', error);
+        console.error('Database Error:', error);
         throw Error('Failed to update map.');
     }
 }
@@ -126,7 +126,7 @@ export async function deletePlaceFromDB(id: number): Promise<void> {
             eq(places.user_id, user_id)
         ));
     } catch (error) {
-        console.log('Database Error:', error);
+        console.error('Database Error:', error);
         throw Error('Failed to delete map.');
     }
 }
@@ -136,7 +136,7 @@ export async function selectPlaceCount(map_id: number): Promise<number> {
         const res = await db.select({ count: count() }).from(places).where(eq(places.map_id, map_id));
         return res[0].count;
     } catch (error) {
-        console.log('Database Error:', error);
+        console.error('Database Error:', error);
         throw Error('Failed to get map count.');
     }
 }

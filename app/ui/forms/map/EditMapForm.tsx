@@ -30,7 +30,6 @@ const EditMapForm = ({ defaultName, defaultDesc, defaultEmoji }: FormProps) => {
     const handleEmojiClick = (pickedEmoji: string) => {
         setEmoji(pickedEmoji);
         setShowEmojiPicker(false);
-        console.log(emoji);
     }
 
     const updateMapWithIdAndEmoji = updateMap.bind(null, +map_id, emoji, returnSearchParams);
