@@ -4,6 +4,8 @@ import { insertPlace, updatePlaceInDb, deletePlaceFromDB, updatePlaceCoordinates
 import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation';
 import { validateCoords, validateCreatePlaceArgs, validateUpdatePlaceArgs } from "../validation/validatePlaceData";
+import { uploadImagesToS3 } from "../images";
+import { auth } from "@/auth";
 
 
 export type State = {
@@ -32,6 +34,12 @@ export async function createPlace(placeProps: NewPlaceWithoutFormData, viewState
 }
 
 export async function updatePlace(placeProps: UpdatePlaceWithoutFormData, viewstate: string, prevState: State, formData: FormData) {
+
+    const images = formData.getAll('image') as File[]
+    const session = await auth();
+    if (!session) return redirect('/');
+    const user_id = session.user.id;
+    await uploadImagesToS3(images, user_id);
 
     const res = validateUpdatePlaceArgs(placeProps.id, placeProps.emoji, placeProps.map_id, formData)
     if (!res.updates) return res;
