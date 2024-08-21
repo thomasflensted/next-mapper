@@ -1,8 +1,8 @@
-import { ReactNode, useRef, useState } from "react"
+import { Dispatch, ReactNode, SetStateAction, useRef, useState } from "react"
 import { FaPlus } from "react-icons/fa"
 import { IoIosCloseCircle } from "react-icons/io";
 
-const ImageInput = ({ children }: { children: ReactNode }) => {
+const ImageInput = ({ children, setImage }: { children: ReactNode, setImage: Dispatch<SetStateAction<File | null>> }) => {
 
     const [images, setImages] = useState<(string | null)[]>(Array(5).fill(null));
     const inputRef = useRef<HTMLInputElement>(null);
@@ -14,6 +14,7 @@ const ImageInput = ({ children }: { children: ReactNode }) => {
         updatedImages.map((image, index) => image === null && files[count]
             ? updatedImages[index] = URL.createObjectURL(files[count++]) : image)
         setImages(updatedImages);
+        setImage(files[0]);
     }
 
     const handleImageDelete = (index: number) => {
@@ -26,6 +27,8 @@ const ImageInput = ({ children }: { children: ReactNode }) => {
         <div className="flex flex-col">
             <div className="flex gap-1 justify-between">
                 <input
+                    name='image'
+                    id='image'
                     ref={inputRef}
                     onChange={(e) => handleImageSelect(e.target.files)}
                     type="file"

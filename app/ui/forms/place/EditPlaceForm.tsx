@@ -18,6 +18,7 @@ const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) =>
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emoji, setEmoji] = useState(place.emoji);
     const inputRef = useRef<HTMLInputElement>(null);
+    const [image, setImage] = useState<File | null>(null);
 
     const searchParams = useSearchParams();
     const params = useParams();
@@ -30,7 +31,7 @@ const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) =>
         setShowEmojiPicker(false);
     }
 
-    const placeProps: UpdatePlaceWithoutFormData = { id: place.id, emoji, map_id: +map_id }
+    const placeProps: UpdatePlaceWithoutFormData = { id: place.id, emoji, map_id: +map_id };
     const createPlaceWithArguments = updatePlace.bind(null, placeProps, viewState);
 
     const initialState = { message: '', errors: {} };
@@ -54,7 +55,7 @@ const EditPlaceForm = ({ place, backUrl }: { place: Place, backUrl: string }) =>
                 {state.errors?.validated_emoji && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_emoji[0]}</p>}
             </EmojiPickerComponent>
 
-            <ImageInput>
+            <ImageInput setImage={setImage}>
                 {state.errors?.validated_emoji && <p className="block ml-2 text-xs font-light text-red-500">{state.errors.validated_emoji[0]}</p>}
             </ImageInput>
 

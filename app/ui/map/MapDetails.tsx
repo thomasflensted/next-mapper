@@ -17,7 +17,7 @@ async function MapDetails({ map_id, sp }: { map_id: number, sp: URLSearchParams 
                 <p className="mr-2 text-4xl">{mapDetails.emoji}</p>
                 <div className="flex flex-col gap-1.5">
                     <h1 className="text-xl font-semibold text-blue-600">{mapDetails.name}</h1>
-                    <p className="text-xs font-medium text-blue-500">{`${placeCount} ${placeCount === 1 ? 'place' : 'places'}`}</p>
+                    <p className="text-xs font-medium text-blue-500">{`${placeCount} places${placeCount === 1 ? '' : 's'}`}</p>
                 </div>
                 {mapDetails.description && <p className="w-2/5 text-sm font-light leading-6 text-blue-500">{mapDetails.description}</p>}
             </div>
@@ -32,6 +32,8 @@ async function MapDetails({ map_id, sp }: { map_id: number, sp: URLSearchParams 
                     <button className="px-4 py-2 text-xs font-light text-blue-600 bg-white border rounded hover:bg-gray-50">Edit Map Details</button>
                 </Link>
             </div>
+            <button className="px-4 py-2 text-xs font-light text-blue-600 bg-white border rounded hover:bg-gray-50">Edit Map Details</button>
+
         </div>
     )
 }
